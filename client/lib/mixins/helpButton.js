@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('helpButton', function(subTemplates, $templateCache) {
+  .directive('helpButton', function(subTemplates, $templateCache, coreComponents) {
     'use strict';
 
     $templateCache.put('help-button.html',
@@ -25,16 +25,17 @@ angular.module('mixularApp')
       'helpButton',
       {priority: 8},
       function(elem, attrs, targets) {
-        var template = angular.element($templateCache.get('help-button.html'));
-        var tpAfter = elem.find('tp-after')[0];
-        tpAfter.parentElement.replaceChild(template[0], tpAfter);
+        targets.$replace('after', 'help-button.html')
         elem.addClass('has-help-button');
       }
     );
 
     return {
-      link: function(scope, element, attrs) {
-        scope.mx.help = {
+      require: coreComponents(),
+      link: function(scope, element, attrs, ctrls) {
+        var ctrl;
+        if (!(ctrl = _.find(ctrls))) { return; }
+        ctrl.help = {
           show: false,
           msg: attrs.helpButton
         };

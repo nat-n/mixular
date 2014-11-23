@@ -12,9 +12,51 @@
     <div class="col-lg-12">
       <h1 class="page-header">Components:</h1>
 
-      <mx-input name="name"
-                vertical-field label="Name"
-                help-button="You just fill it in"></mx-input>
+
+      <mx-input></mx-input>
+
+      <br>
+      <br>
+
+      <mx-select name="homeWorld"
+                mx-model="guestBook"
+                horizontal-field
+                label="Home world"
+                mx-options="{'': '--- Please select ---',
+                             mars:'Mars',
+                             jupiter: 'Jupiter',
+                             earth: 'Earth',
+                             venus: 'Venus'}"
+                help-button="You select an option, k?">
+      </mx-select>
+
+      <mx-input name="firstName"
+                label="First name"
+                vertical-field
+                mx-model="guestBook"
+                help-button="You just fill it in, k?">
+      </mx-input>
+
+
+      <mx-input name="wide"
+                horizontal-field
+                placeholder="Type stuff in here!">
+      </mx-input>
+
+
+      <mx-input name="actions"
+                horizontal-field
+                has-button-group
+                label="Actions"
+                help-button="You just fill it in, k?">
+        <div class="input-group-btn">
+          <button type="button"
+                  class="btn btn-default">Action1</button>
+          <button type="button"
+                  class="btn btn-default">Action2</button>
+        </div>
+      </mx-input>
+
     </div>
   </div>
 </div>

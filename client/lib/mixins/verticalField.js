@@ -3,17 +3,17 @@
 
 angular.module('mixularApp')
 
-  .directive('verticalField', function(subTemplates, $templateCache) {
+  .directive('verticalField', function($templateCache, subTemplates, coreComponents) {
     'use strict';
 
     $templateCache.put('vertical-field.html',
-      '<div class="form-group">' +
-        '<div>' +
+      '<div class="form-group vertical-field">' +
+        '<div ng-if="mx.label">' +
           '<label for="{{mx.id}}-input"' +
                 ' class="control-label"' +
                 ' ng-bind="mx.label"></label>' +
         '</div>' +
-        '<div>' +
+        '<div class="main-wrapper">' +
           '<tp-before></tp-before>' +
           '<tp-main></tp-main>' +
           '<tp-after></tp-after>' +
@@ -25,21 +25,21 @@ angular.module('mixularApp')
       'verticalField',
       {priority: 10},
       function(elem, attrs, targets) {
-        // SHOULD: check and update targets
-        var template = angular.element($templateCache.get('vertical-field.html'));
-        var tpMain = template.find('tp-main')[0];
-        elem[0].replaceChild(template[0], targets.main);
-        tpMain.parentElement.replaceChild(targets.main, tpMain);
-        targets.input.classList.add('form-control');
+        targets.$wrap('main', 'vertical-field.html');
+        targets.field.classList.add('form-control');
+        targets.before = elem.find('tp-before')[0];
+        targets.after = elem.find('tp-after')[0];
       }
     );
 
     return {
       restrict: 'A',
       priority: 150,
-      link: function(scope, elem, attrs) {
-        scope.mx || (scope.mx = {});
-        scope.mx.label = attrs.label;
+      require: coreComponents(),
+      link: function(scope, elem, attrs, ctrls) {
+        var ctrl;
+        if (!(ctrl = _.find(ctrls))) { return; }
+        ctrl.label = attrs.label;
       }
     };
   });

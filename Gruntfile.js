@@ -470,7 +470,8 @@ module.exports = function (grunt) {
           loadPath: [
             '<%= yeoman.client %>/bower_components',
             '<%= yeoman.client %>/app',
-            '<%= yeoman.client %>/components'
+            '<%= yeoman.client %>/components',
+            '<%= yeoman.client %>/lib'
           ],
           compass: false
         },
@@ -511,6 +512,7 @@ module.exports = function (grunt) {
           transform: function(filePath) {
             filePath = filePath.replace('/client/app/', '');
             filePath = filePath.replace('/client/components/', '');
+            filePath = filePath.replace('/client/lib/', '');
             return '@import \'' + filePath + '\';';
           },
           starttag: '// injector',
