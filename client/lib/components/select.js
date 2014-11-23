@@ -56,7 +56,6 @@ angular.module('mixularApp')
       return {
         pre: function (scope, elem, attrs, ctrl) {
           ctrl.targets = targets;
-          scope.mx = ctrl;
         }
       }
     }
@@ -73,6 +72,7 @@ angular.module('mixularApp')
       scope: {},
       require: 'mxSelect',
       controller: mxSelectController,
+      controllerAs: 'mx',
       compile: mxSelectCompile
     };
   });

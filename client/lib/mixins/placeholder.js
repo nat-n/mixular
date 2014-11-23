@@ -6,7 +6,7 @@ angular.module('mixularApp')
 
     subTemplates.register(
       'placeholder',
-      {priority: 8},
+      {priority: 145},
       function(elem, attrs, targets) {
         targets.input.setAttribute('placeholder', '{{mx.placeholder}}')
       }
@@ -14,7 +14,7 @@ angular.module('mixularApp')
 
     return {
       restrict: 'A',
-      priority: 150,
+      priority: 145,
       require: coreComponents(),
       link: function(scope, elem, attrs, ctrls) {
         var ctrl;

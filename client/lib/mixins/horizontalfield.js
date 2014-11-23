@@ -25,7 +25,7 @@ angular.module('mixularApp')
 
     subTemplates.register(
       'horizontalField',
-      {priority: 10},
+      {priority: 150},
       function(elem, attrs, targets) {
         targets.$wrap('main', 'horizontal-field.html');
         targets.main.classList.add('form-control');

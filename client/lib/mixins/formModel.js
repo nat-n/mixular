@@ -10,7 +10,7 @@ angular.module('mixularApp')
 
     subTemplates.register(
       'mxModel',
-      {priority: 6},
+      {priority: 120},
       function(elem, attrs, targets) {
         targets.field.setAttribute('ng-model', 'mx.model[mx.key]');
       }
@@ -18,7 +18,7 @@ angular.module('mixularApp')
 
     return {
       restrict: 'A',
-      priority: 150,
+      priority: 120,
       require: coreComponents(),
       link: {
         pre: function(scope, elem, attrs, ctrls) {

@@ -23,7 +23,7 @@ angular.module('mixularApp')
 
     subTemplates.register(
       'helpButton',
-      {priority: 8},
+      {priority: 140},
       function(elem, attrs, targets) {
         targets.$replace('after', 'help-button.html')
         elem.addClass('has-help-button');
@@ -31,6 +31,8 @@ angular.module('mixularApp')
     );
 
     return {
+      restrict: 'E',
+      priority: 140,
       require: coreComponents(),
       link: function(scope, element, attrs, ctrls) {
         var ctrl;

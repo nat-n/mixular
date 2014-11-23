@@ -23,7 +23,7 @@ angular.module('mixularApp')
 
     subTemplates.register(
       'verticalField',
-      {priority: 10},
+      {priority: 150},
       function(elem, attrs, targets) {
         targets.$wrap('main', 'vertical-field.html');
         targets.field.classList.add('form-control');

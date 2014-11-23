@@ -15,7 +15,7 @@ angular.module('mixularApp')
 
     subTemplates.register(
       'hasButtonGroup',
-      {priority: 6},
+      {priority: 130},
       function(elem, attrs, targets) {
         targets.$wrap('main', 'has-button-group.html');
         targets.buttonGroup = elem.find('tp-button-group')[0];
@@ -24,7 +24,7 @@ angular.module('mixularApp')
 
     return {
       restrict: 'A',
-      priority: 100,
+      priority: 130,
       require: coreComponents(),
       scope: false,
       link: function(scope, elem, attrs, ctrls) {
