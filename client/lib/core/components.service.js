@@ -2,17 +2,17 @@
 angular.module('mixularApp')
 
   .service('coreComponents', function(){
-    'use strict'
+    'use strict';
     var components = [];
 
-    return function(new_component) {
-      var conponents_array = [];
-      if (new_component) {
-        components.push(new_component);
+    return function(newComponent) {
+      var conponentsArr = [];
+      if (newComponent) {
+        components.push(newComponent);
       }
       for (var i = components.length - 1; i >= 0; i--) {
-        conponents_array.push('?^' + components[i]);
-      };
-      return conponents_array;
+        conponentsArr.push('?^' + components[i]);
+      }
+      return conponentsArr;
     };
   });

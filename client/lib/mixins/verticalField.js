@@ -1,5 +1,3 @@
-// required target input
-
 
 angular.module('mixularApp')
 

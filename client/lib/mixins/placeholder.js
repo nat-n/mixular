@@ -8,7 +8,7 @@ angular.module('mixularApp')
       'placeholder',
       {priority: 145},
       function(elem, attrs, targets) {
-        targets.input.setAttribute('placeholder', '{{mx.placeholder}}')
+        targets.input.setAttribute('placeholder', '{{mx.placeholder}}');
       }
     );
 

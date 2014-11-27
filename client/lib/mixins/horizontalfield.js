@@ -1,7 +1,4 @@
-// required target input
-
-// use attr value to config grid layout classes (e.g. narow wide, 3,4,4 etc)
-
+// TODO: use attr value to config grid layout classes (e.g. narow wide, 3,4,4 etc)
 
 angular.module('mixularApp')
 
@@ -29,7 +26,7 @@ angular.module('mixularApp')
       function(elem, attrs, targets) {
         targets.$wrap('main', 'horizontal-field.html');
         targets.main.classList.add('form-control');
-        elem.addClass('form-horizontal')
+        elem.addClass('form-horizontal');
         targets.before = elem.find('tp-before')[0];
         targets.after = elem.find('tp-after')[0];
       }

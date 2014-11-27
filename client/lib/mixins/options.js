@@ -14,30 +14,30 @@ angular.module('mixularApp')
       scope.$watch(attrs.mxOptions, function (opts) {
         var keys = {};
 
-        if (_.isObject(opts) & !_.isArray(opts)) {
+        if (_.isObject(opts) && !_.isArray(opts)) {
           ctrl.options = _.map(opts, function (v, k) {
             return {value: k, label: v};
           });
 
         } else if (_.isArray(opts)) {
           ctrl.options = _.reduce(opts, function (r, o) {
-            var new_opt;
+            var newOpt;
             if (_.isString(o.value) && _.isString(o.label) && !keys[o.value]) {
-              new_opt = {
+              newOpt = {
                 value: o.value,
                 label: o.label
               };
               keys[o.value] = true;
               if (_.isString(o.group)) {
-                new_opt.group = o.group;
+                newOpt.group = o.group;
               }
-              r.push(new_opt);
+              r.push(newOpt);
             }
           }, []);
         }
 
       });
-    };
+    }
 
     return {
       restrict: 'A',

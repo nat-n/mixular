@@ -17,7 +17,7 @@ angular.module('mixularApp')
     }
 
     // Create a wrapper $transclude function that only can only be called once
-    var transcludeWrapper = (function (ctrl, $transclude) {
+    var transcludeWrapper = function (ctrl, $transclude) {
       var called = false;
       return function(scope, cloneAttachFn, futureParentElement){
         if (called) {
@@ -28,7 +28,7 @@ angular.module('mixularApp')
         called = true;
         return $transclude(scope, cloneAttachFn, futureParentElement);
       };
-    });
+    };
 
     function mxInputController ($scope, $attrs, $element, $injector, $transclude) {
       var ctrl = this;
@@ -56,7 +56,7 @@ angular.module('mixularApp')
         pre: function (scope, elem, attrs, ctrl) {
           ctrl.targets = targets;
         }
-      }
+      };
     }
 
     return {

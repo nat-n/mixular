@@ -6,10 +6,10 @@ angular.module('mixularApp')
 
     var templates = {};
 
-    function register(name, params, compile_func) {
+    function register(name, params, compileFunc) {
       templates[name] = {
         params: params,
-        compile: compile_func
+        compile: compileFunc
       };
     }
 
@@ -21,69 +21,69 @@ angular.module('mixularApp')
 
       for (a in attrs) {
         if (attrs.hasOwnProperty(a) && templates.hasOwnProperty(a)) {
-          params = templates[a].params
+          params = templates[a].params;
           sorted[params.priority] = (sorted[params.priority] || []);
           sorted[params.priority].push(templates[a].compile);
         }
       }
+
+      function _applyModifier (func) { func(elem, attrs, target); }
       for (i = sorted.length - 1; i >= 0; i -= 1) {
-        if (sorted[i]) {
-          _.each(sorted[i], function (func) { func(elem, attrs, target); });
-        }
+        if (sorted[i]) { _.each(sorted[i], _applyModifier); }
       }
     }
 
-    function targetReplace (target_name, template_name) {
-      var target = this[target_name];
+    function targetReplace (targetName, templateName) {
+      var target = this[targetName];
       if (!(target && target.hasOwnProperty('ownerDocument'))) {
         // crude test that this isn't a DOM node
-        $log.error('No valid target node: ' + target_name);
+        $log.error('No valid target node: ' + targetName);
       }
 
-      var template = angular.element($templateCache.get(template_name))[0];
+      var template = angular.element($templateCache.get(templateName))[0];
       if (!template) {
-        $log.error('No valid template: ' + template_name);
+        $log.error('No valid template: ' + templateName);
       }
 
       target.parentElement.replaceChild(template, target);
       // remove used up target
-      delete this[target_name];
+      delete this[targetName];
     }
 
-    function targetTransclude (target_name, content) {
-      var target = this[target_name];
+    function targetTransclude (targetName, content) {
+      var target = this[targetName];
       if (!(target && target.hasOwnProperty('ownerDocument'))) {
         // crude test that this isn't a DOM node
-        $log.error('No valid target node: ' + target_name);
+        $log.error('No valid target node: ' + targetName);
       }
 
       if (!(content && content.hasOwnProperty('ownerDocument'))) {
         // crude test that this isn't a DOM node
-        $log.error('Transclusion content not a valid dome node: ' + target_name,
+        $log.error('Transclusion content not a valid dome node: ' + targetName,
                    content);
       }
 
       target.parentElement.replaceChild(content, target);
       // remove used up target
-      delete this[target_name];
+      delete this[targetName];
     }
 
-    function targetWrap (target_name, template_name) {
-      var target = this[target_name];
+    function targetWrap (targetName, templateName) {
+      var target = this[targetName];
       if (!(target && target.hasOwnProperty('ownerDocument'))) {
         // crude test that this isn't a DOM node
-        $log.error('No valid target node: ' + target_name);
+        $log.error('No valid target node: ' + targetName);
       }
 
-      var template = angular.element($templateCache.get(template_name));
+      var template = angular.element($templateCache.get(templateName));
       if (!template) {
-        $log.error('No valid template: ' + template_name);
+        $log.error('No valid template: ' + templateName);
       }
 
-      var tp = template.find('tp-' + target_name)[0];
+      var tp = template.find('tp-' + targetName)[0];
       if (!tp) {
-        $log.error('No transclusion point for ' + target_name +
-                   ' in template: ' + template_name);
+        $log.error('No transclusion point for ' + targetName +
+                   ' in template: ' + templateName);
       }
 
       target.parentElement.replaceChild(template[0], target);
