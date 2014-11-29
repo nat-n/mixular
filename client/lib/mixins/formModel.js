@@ -16,7 +16,9 @@ angular.module('mixularApp')
       'mxModel',
       {priority: 120},
       function(elem, attrs, targets) {
-        targets.field.setAttribute('ng-model', 'mx.model[mx.key]');
+        if (targets.field) {
+          targets.field.setAttribute('ng-model', 'mx.model[mx.key]');
+        }
       }
     );
 
@@ -26,6 +28,7 @@ angular.module('mixularApp')
       require: coreComponents(),
       link: {
         pre: function(scope, elem, attrs, ctrls) {
+          console.log(coreComponents(), ctrls);
           var ctrl;
           if (!(ctrl = _.find(ctrls))) {
             console.warn('No controller found for mxModel: ' +

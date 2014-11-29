@@ -61,7 +61,7 @@ angular.module('mixularApp')
     }
 
     var template = (
-      '<select id="{{mx.id}}" ng-model="myColor"' +
+      '<select id="{{mx.id}}"' +
               'ng-options="o.value as o.label group by o.group for o in mx.options"' +
       '></select>');
 

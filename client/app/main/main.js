@@ -16,7 +16,8 @@ angular.module('mixularApp')
     formModel.addSection('guestBook', {
       firstName: 'Bob',
       homeWorld: '',
-      favouriteThing: 'nothing'
+      favouriteThing: 'nothing',
+      requirements: 'no'
     })
 
     // initialise a named list of options

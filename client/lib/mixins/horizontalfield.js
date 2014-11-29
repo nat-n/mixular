@@ -25,7 +25,7 @@ angular.module('mixularApp')
       {priority: 150},
       function(elem, attrs, targets) {
         targets.$wrap('main', 'horizontal-field.html');
-        targets.main.classList.add('form-control');
+        targets.field.classList.add('form-control');
         elem.addClass('form-horizontal');
         targets.before = elem.find('tp-before')[0];
         targets.after = elem.find('tp-after')[0];

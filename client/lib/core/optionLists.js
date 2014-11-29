@@ -4,16 +4,6 @@ angular.module('mixularApp')
   .service('optionLists', function ($rootScope, $log) {
     'use strict';
 
-    var directory = {
-      yesOrNo: {
-        options: [
-          {value: 'yes', lavel: 'Yes'},
-          {value: 'no',  label: 'No'}
-        ]
-      }
-    };
-
-
     /*
      * Manages watching of options lists
      */
@@ -64,6 +54,15 @@ angular.module('mixularApp')
       }
     })()
 
+    var directory = {
+      yesOrNo: {
+        options: [
+          {value: 'yes', label: 'Yes'},
+          {value: 'no',  label: 'No'}
+        ],
+        watcher: new listenerSetFactory('yesOrNo')
+      }
+    };
 
     function registerOptionList (listName, optionsArray) {
       directory[listName] = {
