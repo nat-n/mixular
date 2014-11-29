@@ -25,10 +25,9 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 120,
-      require: coreComponents(),
+      require: coreComponents.optionalParents(),
       link: {
         pre: function(scope, elem, attrs, ctrls) {
-          console.log(coreComponents(), ctrls);
           var ctrl;
           if (!(ctrl = _.find(ctrls))) {
             console.warn('No controller found for mxModel: ' +

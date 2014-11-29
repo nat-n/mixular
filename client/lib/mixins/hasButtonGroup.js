@@ -25,7 +25,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 130,
-      require: coreComponents(),
+      require: coreComponents.optionalParents(),
       scope: false,
       link: function(scope, elem, attrs, ctrls) {
         var ctrl;

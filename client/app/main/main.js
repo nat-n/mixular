@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('mixularApp')
+
   .config(function ($stateProvider) {
     $stateProvider
       .state('main', {
@@ -9,7 +10,6 @@ angular.module('mixularApp')
         controller: 'MainCtrl'
       });
   })
-
 
   .run(function (formModel, optionLists) {
 

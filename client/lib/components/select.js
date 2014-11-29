@@ -1,11 +1,13 @@
 
 angular.module('mixularApp')
 
-  .directive('mxSelect', function (coreComponents, subTemplates) {
-    'use strict';
+  .config(function (coreComponentsProvider) {
+    // Register this as a core component so that other directives can require it
+    coreComponentsProvider.register('mxSelect');
+  })
 
-    // register this as a core component
-    coreComponents('mxSelect');
+  .directive('mxSelect', function (subTemplates) {
+    'use strict';
 
     function makeTargets (elem) {
       var select = elem.children('select')[0];

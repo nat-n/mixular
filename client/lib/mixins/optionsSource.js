@@ -22,7 +22,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 140,
-      require: coreComponents(),
+      require: coreComponents.optionalParents(),
       link: mxOptionsListLink
     };
   });

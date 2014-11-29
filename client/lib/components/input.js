@@ -1,11 +1,13 @@
 
 angular.module('mixularApp')
 
-  .directive('mxInput', function (coreComponents, subTemplates) {
-    'use strict';
+  .config(function (coreComponentsProvider) {
+    // Register this as a core component so that other directives can require it
+    coreComponentsProvider.register('mxInput');
+  })
 
-    // register this as a core component
-    coreComponents('mxInput');
+  .directive('mxInput', function (subTemplates) {
+    'use strict';
 
     function makeTargets (elem) {
       var input = elem.children('input')[0];

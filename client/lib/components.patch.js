@@ -71,8 +71,16 @@ function mxComponentCompileWrapper(module, params) {
 }
 
 
+
 function defineAngularComponent(name, params) {
   var module = this;
+
+  this.config(function (coreComponentsProvider) {
+    // Register this as a core component so that other directives can require it
+    if (params.core || !params.hasOwnProperty('core')) {
+      coreComponentsProvider.register(name);
+    }
+  });
 
   this.directive(name, function (coreComponents) {
     'use strict';
@@ -105,11 +113,6 @@ function defineAngularComponent(name, params) {
 
     if (params.hasOwnProperty('templateUrl')) {
       directiveDef.templateUrl = params.templateUrl;
-    }
-
-    // Register this as a core component so that other directives can require it
-    if (params.core || !params.hasOwnProperty('core')) {
-      coreComponents(name);
     }
 
     return directiveDef;

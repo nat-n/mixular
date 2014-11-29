@@ -33,7 +33,7 @@ angular.module('mixularApp')
     return {
       restrict: 'E',
       priority: 140,
-      require: coreComponents(),
+      require: coreComponents.optionalParents(),
       link: function(scope, element, attrs, ctrls) {
         var ctrl;
         if (!(ctrl = _.find(ctrls))) { return; }

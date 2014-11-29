@@ -1,18 +1,19 @@
 
 angular.module('mixularApp')
 
-  .service('coreComponents', function(){
+  .provider('coreComponents', function coreComponentsProvider() {
     'use strict';
     var components = [];
 
-    return function(newComponent) {
-      var conponentsArr = [];
-      if (newComponent) {
-        components.push(newComponent);
+    this.register = function(newComponent) {
+      components.push(newComponent);
+    };
+
+    this.$get = function coreComponentsFactory() {
+      return {
+        optionalParents: function() {
+          return components.map(function (c) { return '?^' + c; });
+        }
       }
-      for (var i = components.length - 1; i >= 0; i--) {
-        conponentsArr.push('?^' + components[i]);
-      }
-      return conponentsArr;
     };
   });
