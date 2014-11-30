@@ -18,6 +18,7 @@ angular.module('mixularApp')
       function(elem, attrs, targets) {
         if (targets.field) {
           targets.field.setAttribute('ng-model', 'mx.model[mx.key]');
+          targets.field.setAttribute('mx-model-helper', '');
         }
       }
     );
@@ -37,6 +38,26 @@ angular.module('mixularApp')
           ctrl.model = $parse(attrs.mxModel)(formModel);
           ctrl.key = attrs.name;
           ctrl.value = function () { return ctrl.model[ctrl.key]; };
+        }
+      }
+    };
+  })
+
+  .directive('mxModelHelper', function (coreComponents) {
+    return {
+      restrict: 'A',
+      priority: 115,
+      require: coreComponents.optionalParents('ngModel'),
+      link: {
+        pre: function(scope, elem, attrs, ctrls) {
+          var ctrl, ngModelCtrl = ctrls[ctrls.length-1];
+          if (!(ctrl = _.find(ctrls) || ctrl === ngModelCtrl)) {
+            console.warn('No controller found for mxModelHelper: ' +
+                         (attrs.name || ''));
+            return;
+          }
+          console.log(this);
+          ctrl.modelCtrl = ngModelCtrl;
         }
       }
     };

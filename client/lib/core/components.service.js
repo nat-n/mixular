@@ -12,7 +12,9 @@ angular.module('mixularApp')
     this.$get = function coreComponentsFactory() {
       return {
         optionalParents: function() {
-          return components.map(function (c) { return '?^' + c; });
+          var i, mapped = components.map(function (c) { return '?^' + c; });
+          for (i = 0; i < arguments.length; i++) { mapped.push(arguments[i]); }
+          return mapped;
         }
       }
     };
