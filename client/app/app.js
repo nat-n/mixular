@@ -7,7 +7,7 @@ angular.module('mixularApp', [
   'ui.router',
   'ui.bootstrap'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+  .config(function ($urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
       .otherwise('/');
 
@@ -42,7 +42,7 @@ angular.module('mixularApp', [
   })
 
 
-  .run(function (formModel, optionLists, actions, $rootScope) {
+  .run(function ($rootScope, formModel, optionLists, actions) {
 
     formModel.addSection('guestBook', {
       firstName: 'Bob',

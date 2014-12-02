@@ -25,9 +25,10 @@ angular.module('mixularApp')
       '</fieldset>'
     ),
     targets: function(elem) {
+      var fieldset = elem.children('fieldset')[0];
       return {
-        main: elem.children('fieldset')[0],
-        legend: elem.children('legend')[0]
+        main: fieldset,
+        legend: elem.find('legend')[0]
       };
     }
   });
