@@ -2,15 +2,11 @@
 angular.module('mixularApp')
 
   .directive('mxModel', function($parse,
-                                 $log,
                                  subTemplates,
                                  coreComponents,
                                  formModel,
                                  $rootScope) {
     'use strict';
-
-    window.$rootScope = $rootScope;
-
 
     subTemplates.register(
       'mxModel',
@@ -43,6 +39,7 @@ angular.module('mixularApp')
     };
   })
 
+
   .directive('mxModelHelper', function (coreComponents) {
     return {
       restrict: 'A',
@@ -56,8 +53,39 @@ angular.module('mixularApp')
                          (attrs.name || ''));
             return;
           }
-          console.log(this);
           ctrl.modelCtrl = ngModelCtrl;
+        }
+      }
+    };
+  })
+
+
+  .directive('mxModelOptions', function (coreComponents, subTemplates) {
+    'use strict';
+
+    subTemplates.register(
+      'mxModelOptions',
+      {priority: 120},
+      function(elem, attrs, targets) {
+        if (targets.field) {
+          targets.field.setAttribute('ng-model-options', 'mx.modelOptions');
+        }
+      }
+    );
+
+    return {
+      restrict: 'A',
+      priority: 120,
+      require: coreComponents.optionalParents(),
+      link: {
+        pre: function(scope, elem, attrs, ctrls) {
+          var ctrl;
+          if (!(ctrl = _.find(ctrls))) {
+            console.warn('No controller found for mxModelOptions: ' +
+                         (attrs.name || ''));
+            return;
+          }
+          ctrl.modelOptions = scope.$eval(attrs.mxModelOptions);
         }
       }
     };

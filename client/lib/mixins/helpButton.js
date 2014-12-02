@@ -31,7 +31,7 @@ angular.module('mixularApp')
     );
 
     return {
-      restrict: 'E',
+      restrict: 'A',
       priority: 140,
       require: coreComponents.optionalParents(),
       link: function(scope, element, attrs, ctrls) {

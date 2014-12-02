@@ -16,6 +16,6 @@ angular.module('mixularApp')
           for (i = 0; i < arguments.length; i++) { mapped.push(arguments[i]); }
           return mapped;
         }
-      }
+      };
     };
   });

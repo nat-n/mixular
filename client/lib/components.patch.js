@@ -1,5 +1,6 @@
 // Create a wrapper $transclude function that only can only be called once
 function transcludeWrapper (ctrl, $transclude) {
+  'use strict';
   var called = false;
   return function(scope, cloneAttachFn, futureParentElement){
     if (called) {
@@ -13,6 +14,7 @@ function transcludeWrapper (ctrl, $transclude) {
 }
 
 function mxComponentControllerWrapper (ctrlMixin) {
+  'use strict';
   return function mxComponentController ($scope,
                                          $attrs,
                                          $element,
@@ -31,13 +33,16 @@ function mxComponentControllerWrapper (ctrlMixin) {
       });
     };
 
+    window.ctrl = ctrl;
+
     if (ctrlMixin) { ctrl.include(ctrlMixin); }
 
     return ctrl;
-  }
+  };
 }
 
 function mxComponentCompileWrapper(module, params) {
+  'use strict';
   return function mxComponentCompile(elem, attrs) {
     // manually manage injection
     var $injector = angular.element('[ng-app="' + module.name + '"]').injector();
@@ -53,8 +58,8 @@ function mxComponentCompileWrapper(module, params) {
       return function(scope, elem, attrs, ctrl) {
         ctrl.targets = targets;
         if (preLink) { preLink(scope, elem, attrs, ctrl); }
-      }
-    }
+      };
+    };
 
     if (params.hasOwnProperty('link')) {
       if (angular.isFunction(params.link)) {
@@ -73,18 +78,17 @@ function mxComponentCompileWrapper(module, params) {
 
 
 function defineAngularComponent(name, params) {
+  'use strict';
   var module = this;
 
-  this.config(function (coreComponentsProvider) {
+  module.config(function (coreComponentsProvider) {
     // Register this as a core component so that other directives can require it
     if (params.core || !params.hasOwnProperty('core')) {
       coreComponentsProvider.register(name);
     }
   });
 
-  this.directive(name, function (coreComponents) {
-    'use strict';
-
+  module.directive(name, function () {
     var directiveDef = {
       restrict: 'E',
       transclude: true,

@@ -7,6 +7,13 @@ angular.module('mixularApp')
                                    coreComponents) {
     'use strict';
 
+    return {
+      restrict: 'A',
+      priority: 140,
+      require: coreComponents.optionalParents(),
+      link: mxOptionsLink
+    };
+
     function mxOptionsLink(scope, elem, attrs, ctrls) {
       var ctrl;
       if (!(ctrl = _.find(ctrls))) { return; }
@@ -39,10 +46,4 @@ angular.module('mixularApp')
       });
     }
 
-    return {
-      restrict: 'A',
-      priority: 140,
-      require: coreComponents.optionalParents(),
-      link: mxOptionsLink
-    };
   });

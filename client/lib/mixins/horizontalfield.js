@@ -16,6 +16,7 @@ angular.module('mixularApp')
           '<tp-before></tp-before>' +
           '<tp-main></tp-main>' +
           '<tp-after></tp-after>' +
+          '<tp-after-1></tp-after-1>' +
         '</div>' +
       '</div>'
     );
@@ -29,6 +30,7 @@ angular.module('mixularApp')
         elem.addClass('form-horizontal');
         targets.before = elem.find('tp-before')[0];
         targets.after = elem.find('tp-after')[0];
+        targets.after1 = elem.find('tp-after-1')[0];
       }
     );
 

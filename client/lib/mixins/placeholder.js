@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('placeholder', function($templateCache, subTemplates, coreComponents) {
+  .directive('placeholder', function(subTemplates, coreComponents) {
     'use strict';
 
     subTemplates.register(

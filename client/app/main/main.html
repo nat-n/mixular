@@ -18,8 +18,6 @@
       <br>
       <br>
 
-
-
       <mx-select name="homeWorld"
                 mx-model="guestBook"
                 horizontal-field
@@ -45,7 +43,12 @@
                 label="First name"
                 vertical-field
                 mx-model="guestBook"
-                help-button="You just fill it in, k?">
+                mx-model-options="{debounce: 1000}"
+                onchange="sayHi(mx.value())"
+                help-button="You just fill it in, k?"
+                mx-required="true"
+                valid-message
+                mx-required-msg="You really need to fill this one in.">
       </mx-input>
 
       <mx-radio-set name="requirements"
