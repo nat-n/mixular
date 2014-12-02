@@ -50,7 +50,7 @@ angular.module('mixularApp')
           }
         );
 
-        // read messages from other attributes
+        // Read messages from other attributes
         _.each(attrs, function(msg, attr) {
           var errorName,
               errorMsgMatch = attr.match(/mx([\w]*)Msg/);
