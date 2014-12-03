@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('onchange', function(subTemplates,
+  .directive('mxChange', function(subTemplates,
                                   coreComponents,
                                   actions,
                                   $parse,
@@ -9,10 +9,10 @@ angular.module('mixularApp')
     'use strict';
 
     subTemplates.register(
-      'onchange',
+      'mxChange',
       {priority: 115},
       function(elem, attrs, targets) {
-        targets.field.setAttribute('ng-change', 'mx.onchange()');
+        targets.field.setAttribute('ng-change', 'mx.mxChange()');
       }
     );
 
@@ -25,15 +25,15 @@ angular.module('mixularApp')
         if (!(ctrl = _.find(ctrls))) { return; }
 
         if (!ctrl.hasOwnProperty('modelCtrl')) {
-          $log.warn('Cannot initialise onchange;' +
+          $log.warn('Cannot initialise mxChange;' +
                     ' modelCtrl not present on component controller');
           return;
         }
 
-        var parser = $parse(attrs.onchange);
+        var parser = $parse(attrs.mxChange);
         var context = angular.extend(Object.create(actions), {mx: ctrl});
 
-        ctrl.onchange = function(){ parser(context); };
+        ctrl.mxChange = function(){ parser(context); };
       }
     };
   });
