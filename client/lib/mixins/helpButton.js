@@ -12,6 +12,7 @@ angular.module('mixularApp')
                 ' id="{{mx.id}}-help-button"' +
                 ' title="help"' +
                 ' ng-click="mx.help.show=!mx.help.show"' +
+                ' ng-blur="mx.help.show=false"' +
                 ' class="help-button">' +
         '<div class="ng-hide"' +
              ' ng-show="mx.help.show"' +
