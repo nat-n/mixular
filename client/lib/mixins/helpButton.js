@@ -25,7 +25,7 @@ angular.module('mixularApp')
     subTemplates.register(
       'helpButton',
       {priority: 140},
-      function(elem, attrs, targets) {
+      function helpButtonCompile(elem, attrs, targets) {
         targets.$replace('after', 'help-button.html');
         elem.addClass('has-help-button');
       }

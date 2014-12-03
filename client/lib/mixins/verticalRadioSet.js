@@ -24,6 +24,11 @@ angular.module('mixularApp')
         targets.before = elem.find('tp-before')[0];
         targets.after = elem.find('tp-after')[0];
         targets.after1 = elem.find('tp-after-1')[0];
+        if (attrs.verticalRadioSet === 'inline') {
+          elem.find('.radio')
+            .removeClass('radio')
+            .addClass('radio-inline');
+        }
       }
     );
 

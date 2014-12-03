@@ -1,4 +1,3 @@
-// TODO: use attr value to config grid layout classes (e.g. narow wide, 3,4,4 etc)
 
 angular.module('mixularApp')
 

@@ -11,26 +11,22 @@ angular.module('mixularApp')
         params: params,
         compile: compileFunc
       };
+      Object.freeze(templates[name]);
     }
 
     function apply(elem, attrs, target) {
       // Apply compiles any registered functions that match present attributes,
       //  respecting priority ordering (highest first).
-      var a, i, params,
-          sorted = []; // a sparse array
-
-      for (a in attrs) {
-        if (attrs.hasOwnProperty(a) && templates.hasOwnProperty(a)) {
-          params = templates[a].params;
-          sorted[params.priority] = (sorted[params.priority] || []);
-          sorted[params.priority].push(templates[a].compile);
-        }
-      }
-
-      function _applyModifier (func) { func(elem, attrs, target); }
-      for (i = sorted.length - 1; i >= 0; i -= 1) {
-        if (sorted[i]) { _.each(sorted[i], _applyModifier); }
-      }
+      _.keys(attrs)
+        .filter(function(a){
+          return attrs.hasOwnProperty(a) && templates.hasOwnProperty(a);
+        })
+        .sort(function(a, b){
+          return templates[b].params.priority - templates[a].params.priority;
+        })
+        .forEach(function(a){
+          templates[a].compile(elem, attrs, target);
+        });
     }
 
     function targetReplace (targetName, templateName) {
