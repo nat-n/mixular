@@ -26,7 +26,7 @@ angular.module('mixularApp')
       'helpButton',
       {priority: 140},
       function helpButtonCompile(elem, attrs, targets) {
-        targets.$replace('after', 'help-button.html');
+        targets.$replace('after1', 'help-button.html');
         elem.addClass('has-help-button');
       }
     );

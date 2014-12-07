@@ -75,8 +75,6 @@ function mxComponentCompileWrapper(module, params) {
   };
 }
 
-
-
 function defineAngularComponent(name, params) {
   'use strict';
   var module = this;

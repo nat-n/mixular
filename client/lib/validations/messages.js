@@ -19,7 +19,7 @@ angular.module('mixularApp')
       'validMessage',
       {priority: 140},
       function(elem, attrs, targets) {
-        targets.$replace('after1', 'validation-message.html');
+        targets.$replace('after2', 'validation-message.html');
       }
     );
 

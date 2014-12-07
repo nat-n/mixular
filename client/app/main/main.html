@@ -48,7 +48,9 @@
                 help-button="You just fill it in, k?"
                 mx-required="true"
                 valid-message
-                mx-required-msg="You really need to fill this one in.">
+                mx-required-msg="You really need to fill this one in."
+                status-icon="{'glyphicon-ok':modelCtrl.$valid}"
+                has-status="{'has-success':modelCtrl.$valid}">
       </mx-input>
 
       <mx-radio-set name="requirements"
@@ -71,7 +73,6 @@
                 max-length="10"
                 password>
       </mx-input>
-
 
       <mx-input name="actions"
                 horizontal-field
