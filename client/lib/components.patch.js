@@ -33,8 +33,6 @@ function mxComponentControllerWrapper (ctrlMixin) {
       });
     };
 
-    window.ctrl = ctrl;
-
     if (ctrlMixin) { ctrl.include(ctrlMixin); }
 
     return ctrl;
