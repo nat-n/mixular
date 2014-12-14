@@ -2,10 +2,10 @@
 angular.module('mixularApp')
 
   .directive('mxOptionsList', function($templateCache,
-                                         $parse,
-                                         subTemplates,
-                                         coreComponents,
-                                         optionLists) {
+                                       $parse,
+                                       subTemplates,
+                                       Components,
+                                       optionLists) {
     'use strict';
 
     function mxOptionsListLink(scope, elem, attrs, ctrls) {
@@ -22,7 +22,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 140,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: mxOptionsListLink
     };
   });

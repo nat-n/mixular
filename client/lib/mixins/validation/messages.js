@@ -3,7 +3,7 @@ angular.module('mixularApp')
 
   .directive('validMessage', function(subTemplates,
                                       $templateCache,
-                                      coreComponents,
+                                      Components,
                                       validationTypes) {
     'use strict';
 
@@ -26,7 +26,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 115,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: function(scope, element, attrs, ctrls) {
         var ctrl;
         if (!(ctrl = _.find(ctrls))) { return; }
@@ -53,14 +53,38 @@ angular.module('mixularApp')
         // Read messages from other attributes
         _.each(attrs, function(msg, attr) {
           var errorName,
-              errorMsgMatch = attr.match(/mx([\w]*)Msg/);
+              errorMsgMatch = attr.match(/mx([\w]*)Msg/),
+              errorSumMatch = attr.match(/mx([\w]*)Err/);
           if (errorMsgMatch && errorMsgMatch[1]) {
             errorName = errorMsgMatch[1].split('');
             errorName[0] = errorName[0].toLowerCase();
             errorName = errorName.join('');
             ctrl.validationMsgs.inlineMessages[errorName] = msg;
+          } else if (errorSumMatch && errorSumMatch[1]) {
+            errorName = errorSumMatch[1].split('');
+            errorName[0] = errorName[0].toLowerCase();
+            errorName = errorName.join('');
+            ctrl.validationMsgs.summaryMessages[errorName] = msg;
           }
         });
+
+        ctrl.validate = function () {
+          // compile list of error messages for the current valid state
+          if (ctrl.modelCtrl.$valid) {
+            return null;
+          } else {
+            _.reduce(
+              _.keys(ctrl.modelCtrl.$errors),
+              function (err, summary) {
+                if (ctrl.modelCtrl.$errors[err] &&
+                    ctrl.validationMsgs.summaryMessages[err]) {
+                  summary.push(ctrl.validationMsgs.summaryMessages[err]);
+                }
+              }, []
+            );
+          }
+        };
+
       }
     };
   });

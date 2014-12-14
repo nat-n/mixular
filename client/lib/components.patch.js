@@ -77,10 +77,10 @@ function defineAngularComponent(name, params) {
   'use strict';
   var module = this;
 
-  module.config(function (coreComponentsProvider) {
+  module.config(function (ComponentsProvider) {
     // Register this as a core component so that other directives can require it
     if (params.core || !params.hasOwnProperty('core')) {
-      coreComponentsProvider.register(name);
+      ComponentsProvider.register(name);
     }
   });
 

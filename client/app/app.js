@@ -2,7 +2,6 @@
 
 angular.module('mixularApp', [
   'ngCookies',
-  'ngResource',
   'ngSanitize',
   'ui.router',
   'ui.bootstrap'

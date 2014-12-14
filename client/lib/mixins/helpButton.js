@@ -1,7 +1,9 @@
 
 angular.module('mixularApp')
 
-  .directive('helpButton', function(subTemplates, $templateCache, coreComponents) {
+  .directive('helpButton', function(subTemplates,
+                                    $templateCache,
+                                    Components) {
     'use strict';
 
     $templateCache.put('help-button.html',
@@ -34,7 +36,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 140,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: function(scope, element, attrs, ctrls) {
         var ctrl;
         if (!(ctrl = _.find(ctrls))) { return; }

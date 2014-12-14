@@ -3,7 +3,7 @@ angular.module('mixularApp')
 
   .directive('mxModel', function($parse,
                                  subTemplates,
-                                 coreComponents,
+                                 Components,
                                  formModel,
                                  $rootScope) {
     'use strict';
@@ -22,7 +22,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 120,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: {
         pre: function(scope, elem, attrs, ctrls) {
           var ctrl;
@@ -40,11 +40,11 @@ angular.module('mixularApp')
   })
 
 
-  .directive('mxModelHelper', function (coreComponents) {
+  .directive('mxModelHelper', function (Components) {
     return {
       restrict: 'A',
       priority: 115,
-      require: coreComponents.optionalParents('ngModel'),
+      require: Components.optionalParents('ngModel'),
       link: {
         pre: function(scope, elem, attrs, ctrls) {
           var ctrl, ngModelCtrl = ctrls[ctrls.length-1];
@@ -60,7 +60,7 @@ angular.module('mixularApp')
   })
 
 
-  .directive('mxModelOptions', function (coreComponents, subTemplates) {
+  .directive('mxModelOptions', function (Components, subTemplates) {
     'use strict';
 
     subTemplates.register(
@@ -76,7 +76,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 120,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: {
         pre: function(scope, elem, attrs, ctrls) {
           var ctrl;

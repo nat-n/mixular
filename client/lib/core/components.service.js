@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .provider('coreComponents', function coreComponentsProvider() {
+  .provider('Components', function ComponentsProvider() {
     'use strict';
     var components = [];
 
@@ -9,7 +9,7 @@ angular.module('mixularApp')
       components.push(newComponent);
     };
 
-    this.$get = function coreComponentsFactory() {
+    this.$get = function ComponentsFactory() {
       return {
         optionalParents: function() {
           var i, mapped = components.map(function (c) { return '?^' + c; });

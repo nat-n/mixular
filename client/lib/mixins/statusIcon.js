@@ -4,7 +4,7 @@ angular.module('mixularApp')
   .directive('statusIcon', function($templateCache,
                                     $parse,
                                     subTemplates,
-                                    coreComponents) {
+                                    Components) {
     'use strict';
 
     $templateCache.put('status-icon.html',
@@ -25,7 +25,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 100,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: function(scope, elem, attrs, ctrls) {
         var ctrl;
         if (!(ctrl = _.find(ctrls))) { return; }

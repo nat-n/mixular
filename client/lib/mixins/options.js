@@ -4,13 +4,13 @@ angular.module('mixularApp')
   .directive('mxOptions', function($templateCache,
                                    $parse,
                                    subTemplates,
-                                   coreComponents) {
+                                   Components) {
     'use strict';
 
     return {
       restrict: 'A',
       priority: 140,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: mxOptionsLink
     };
 

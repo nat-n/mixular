@@ -4,7 +4,7 @@ angular.module('mixularApp')
   .directive('hasStatus', function($templateCache,
                                     $parse,
                                     subTemplates,
-                                    coreComponents) {
+                                    Components) {
     'use strict';
 
     subTemplates.register(
@@ -18,7 +18,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 100,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: function(scope, elem, attrs, ctrls) {
         var ctrl;
         if (!(ctrl = _.find(ctrls))) { return; }

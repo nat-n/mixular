@@ -5,13 +5,13 @@ angular.module('mixularApp')
     validationTypesProvider.register(0, 'required');
   })
 
-  .directive('mxRequired', function(coreComponents, $log) {
+  .directive('mxRequired', function(Components, $log) {
     'use strict';
 
     return {
       restrict: 'A',
       priority: 110,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: mxRequiredLink
     };
 

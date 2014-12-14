@@ -3,7 +3,7 @@ angular.module('mixularApp')
 
   .directive('hasButtonGroup', function($templateCache,
                                         subTemplates,
-                                        coreComponents) {
+                                        Components) {
     'use strict';
 
     $templateCache.put('has-button-group.html',
@@ -25,7 +25,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 130,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       scope: false,
       link: function(scope, elem, attrs, ctrls) {
         var ctrl;

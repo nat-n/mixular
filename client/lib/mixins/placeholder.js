@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('placeholder', function(subTemplates, coreComponents) {
+  .directive('placeholder', function(subTemplates, Components) {
     'use strict';
 
     subTemplates.register(
@@ -15,7 +15,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 145,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: function(scope, elem, attrs, ctrls) {
         var ctrl;
         if (!(ctrl = _.find(ctrls))) { return; }

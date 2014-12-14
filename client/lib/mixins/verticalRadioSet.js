@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('verticalRadioSet', function($templateCache, subTemplates, coreComponents) {
+  .directive('verticalRadioSet', function($templateCache, subTemplates) {
     'use strict';
 
     $templateCache.put('vertical-radioset.html',

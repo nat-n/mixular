@@ -48,7 +48,6 @@
       <!-- bower:js -->
       <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-resource/angular-resource.js"></script>
       <script src="bower_components/angular-cookies/angular-cookies.js"></script>
       <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
       <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -62,20 +61,19 @@
           <!-- injector:js -->
           <script src="app/main/main.js"></script>
           <script src="components/modal/modal.service.js"></script>
-          <script src="components/mongoose-error/mongoose-error.directive.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <script src="lib/components.patch.js"></script>
           <script src="lib/components/actions.service.js"></script>
           <script src="lib/components/input.js"></script>
           <script src="lib/components/radio-set.js"></script>
           <script src="lib/components/select.js"></script>
+          <script src="lib/components/validationSets.js"></script>
           <script src="lib/core/components.service.js"></script>
           <script src="lib/core/formModel.service.js"></script>
           <script src="lib/core/optionLists.js"></script>
-          <script src="lib/core/partials.service.js"></script>
+          <script src="lib/core/subTemplates.js"></script>
           <script src="lib/core/validations.provider.js"></script>
-          <script src="lib/maxLength.js"></script>
-          <script src="lib/mixins/formModel.js"></script>
+          <script src="lib/mixins/formModel/formModel.js"></script>
           <script src="lib/mixins/hasButtonGroup.js"></script>
           <script src="lib/mixins/hasStatus.js"></script>
           <script src="lib/mixins/helpButton.js"></script>
@@ -88,10 +86,11 @@
           <script src="lib/mixins/password.js"></script>
           <script src="lib/mixins/placeholder.js"></script>
           <script src="lib/mixins/statusIcon.js"></script>
+          <script src="lib/mixins/validation/errorSummary.js"></script>
+          <script src="lib/mixins/validation/messages.js"></script>
+          <script src="lib/mixins/validation/required.js"></script>
           <script src="lib/mixins/verticalField.js"></script>
           <script src="lib/mixins/verticalRadioSet.js"></script>
-          <script src="lib/validations/messages.js"></script>
-          <script src="lib/validations/required.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
 </body>

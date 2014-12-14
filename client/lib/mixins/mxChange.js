@@ -2,7 +2,7 @@
 angular.module('mixularApp')
 
   .directive('mxChange', function(subTemplates,
-                                  coreComponents,
+                                  Components,
                                   actions,
                                   $parse,
                                   $log) {
@@ -19,7 +19,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 145,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: function(scope, elem, attrs, ctrls) {
         var ctrl;
         if (!(ctrl = _.find(ctrls))) { return; }

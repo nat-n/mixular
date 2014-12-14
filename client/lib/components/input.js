@@ -1,9 +1,9 @@
 
 angular.module('mixularApp')
 
-  .config(function (coreComponentsProvider) {
-    // Register this as a core component so that other directives can require it
-    coreComponentsProvider.register('mxInput');
+  .config(function (ComponentsProvider) {
+    // Register this as a component so that other directives can require it
+    ComponentsProvider.register('mxInput');
   })
 
   .directive('mxInput', function (subTemplates) {

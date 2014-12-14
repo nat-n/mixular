@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('password', function(subTemplates, coreComponents) {
+  .directive('password', function(subTemplates, Components) {
     'use strict';
 
     subTemplates.register(
@@ -15,6 +15,6 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 145,
-      require: coreComponents.optionalParents()
+      require: Components.optionalParents()
     };
   });

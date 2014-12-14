@@ -1,7 +1,9 @@
 
 angular.module('mixularApp')
 
-  .directive('verticalField', function($templateCache, subTemplates, coreComponents) {
+  .directive('verticalField', function($templateCache,
+                                       subTemplates,
+                                       Components) {
     'use strict';
 
     $templateCache.put('vertical-field.html',
@@ -38,7 +40,7 @@ angular.module('mixularApp')
     return {
       restrict: 'A',
       priority: 150,
-      require: coreComponents.optionalParents(),
+      require: Components.optionalParents(),
       link: function(scope, elem, attrs, ctrls) {
         var ctrl;
         if (!(ctrl = _.find(ctrls))) { return; }
