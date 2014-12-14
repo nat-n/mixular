@@ -1,0 +1,14 @@
+<footer class="footer">
+  <div class="container">
+    <nav>
+      <ul class="pager">
+        <li class="pull-left" ng-if="footerNav.previousPage">
+        	<a ui-sref="{{footerNav.previousPage}}">Previous</a>
+        </li>
+        <li class="pull-right" ng-if="footerNav.nextPage">
+        	<a ui-sref="{{footerNav.nextPage}}">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</footer>
