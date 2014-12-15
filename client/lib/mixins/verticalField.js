@@ -2,7 +2,7 @@
 angular.module('mixularApp')
 
   .directive('verticalField', function($templateCache,
-                                       subTemplates,
+                                       compileMixer,
                                        Components) {
     'use strict';
 
@@ -23,7 +23,7 @@ angular.module('mixularApp')
       '</div>'
     );
 
-    subTemplates.register(
+    compileMixer.register(
       'verticalField',
       {priority: 150},
       function(elem, attrs, targets) {

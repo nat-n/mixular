@@ -1,14 +1,14 @@
 
 angular.module('mixularApp')
 
-  .directive('mxChange', function(subTemplates,
+  .directive('mxChange', function(compileMixer,
                                   Components,
                                   actions,
                                   $parse,
                                   $log) {
     'use strict';
 
-    subTemplates.register(
+    compileMixer.register(
       'mxChange',
       {priority: 115},
       function(elem, attrs, targets) {

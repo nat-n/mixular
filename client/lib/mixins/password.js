@@ -1,10 +1,10 @@
 
 angular.module('mixularApp')
 
-  .directive('password', function(subTemplates, Components) {
+  .directive('password', function(compileMixer, Components) {
     'use strict';
 
-    subTemplates.register(
+    compileMixer.register(
       'password',
       {priority: 145},
       function(elem, attrs, targets) {

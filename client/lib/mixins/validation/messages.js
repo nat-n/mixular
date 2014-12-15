@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('validMessage', function(subTemplates,
+  .directive('validMessage', function(compileMixer,
                                       $templateCache,
                                       Components,
                                       validationTypes) {
@@ -15,7 +15,7 @@ angular.module('mixularApp')
       '</div>'
     );
 
-    subTemplates.register(
+    compileMixer.register(
       'validMessage',
       {priority: 140},
       function(elem, attrs, targets) {

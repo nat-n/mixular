@@ -6,12 +6,12 @@ angular.module('mixularApp')
     ComponentsProvider.register('mxInput');
   })
 
-  .directive('mxInput', function (subTemplates) {
+  .directive('mxInput', function (compileMixer) {
     'use strict';
 
     function makeTargets (elem) {
       var input = elem.children('input')[0];
-      return subTemplates.createTargets({
+      return compileMixer.createTargets({
         main: input,
         field: input,
         input: input
@@ -35,13 +35,14 @@ angular.module('mixularApp')
     function mxInputController ($scope, $attrs, $element, $injector, $transclude) {
       var ctrl = this;
 
+      var WrappedTranscluder = transcludeWrapper(ctrl, $transclude);
       ctrl.include = function(ctrlMixin) {
         $injector.annotate(ctrlMixin);
         $injector.invoke(ctrlMixin, ctrl, {
           '$scope': $scope,
           '$element': $element,
           '$attrs': $attrs,
-          '$transclude': transcludeWrapper(ctrl, $transclude),
+          '$transclude': WrappedTranscluder,
           'targets': ctrl.targets
         });
       };
@@ -53,7 +54,7 @@ angular.module('mixularApp')
 
     function mxInputCompile(elem, attrs) {
       var targets = makeTargets(elem);
-      subTemplates.apply(elem, attrs, targets);
+      compileMixer.apply(elem, attrs, targets);
       return {
         pre: function (scope, elem, attrs, ctrl) {
           ctrl.targets = targets;

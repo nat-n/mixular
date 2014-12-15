@@ -2,7 +2,7 @@
 angular.module('mixularApp')
 
   .directive('hasButtonGroup', function($templateCache,
-                                        subTemplates,
+                                        compileMixer,
                                         Components) {
     'use strict';
 
@@ -13,7 +13,7 @@ angular.module('mixularApp')
       '</div>'
     );
 
-    subTemplates.register(
+    compileMixer.register(
       'hasButtonGroup',
       {priority: 130},
       function(elem, attrs, targets) {

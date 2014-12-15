@@ -9,23 +9,23 @@ angular.module('mixularApp')
         'title': 'Start',
         'stub': 'start',
       } ,{
-        'title': 'Why composable?',
-            'stub': 'why-composable'
+        'title': 'Why components?',
+            'stub': 'why-components'
       } ,{
-        'title': 'Tricks',
+        'title': 'Patterns',
         'stub': 'tricks',
         'subsections': [{
+            'title': 'Compile mixin',
+            'stub': 'template-mixin'
+          }, {
             'title': 'Controller mixin',
             'stub': 'controller-mixin'
-          }, {
-            'title': 'Template mixin',
-            'stub': 'template-mixin'
           }, {
             'title': 'Monkey patch',
             'stub': 'monkey-patch'
         }]
       } ,{
-        'title': 'Example components',
+        'title': 'Examples',
         'stub': 'example-components',
         'subsections': [{
             'title': 'Components',
@@ -41,7 +41,7 @@ angular.module('mixularApp')
             'stub': 'behavoirs'
         }]
       } ,{
-        'title': 'Working example',
+        'title': 'Demo',
         'stub': 'working-example'
       } ,{
         'title': 'Conclusion',

@@ -113,9 +113,7 @@ angular.module('mixularApp')
       newOptions = updateFunc(angular.copy(directory[listName].options));
 
       if (newOptions) {
-        directory[listName] = {
-          options: newOptions
-        };
+        directory[listName].options = newOptions;
 
         // delete lookup property, assuming it is no longer valid
         if (!directory[listName].hasOwnProperty('lookup')) {

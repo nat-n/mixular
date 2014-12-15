@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .service('subTemplates', function ($templateCache, $log) {
+  .service('compileMixer', function ($templateCache, $log) {
     'use strict';
 
     var templates = {};

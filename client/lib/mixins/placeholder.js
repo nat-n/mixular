@@ -1,10 +1,10 @@
 
 angular.module('mixularApp')
 
-  .directive('placeholder', function(subTemplates, Components) {
+  .directive('placeholder', function(compileMixer, Components) {
     'use strict';
 
-    subTemplates.register(
+    compileMixer.register(
       'placeholder',
       {priority: 145},
       function(elem, attrs, targets) {

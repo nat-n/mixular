@@ -3,7 +3,7 @@ angular.module('mixularApp')
 
   .directive('mxOptions', function($templateCache,
                                    $parse,
-                                   subTemplates,
+                                   compileMixer,
                                    Components) {
     'use strict';
 

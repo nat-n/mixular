@@ -2,13 +2,13 @@
 angular.module('mixularApp')
 
   .directive('mxModel', function($parse,
-                                 subTemplates,
+                                 compileMixer,
                                  Components,
                                  formModel,
                                  $rootScope) {
     'use strict';
 
-    subTemplates.register(
+    compileMixer.register(
       'mxModel',
       {priority: 120},
       function(elem, attrs, targets) {
@@ -60,10 +60,10 @@ angular.module('mixularApp')
   })
 
 
-  .directive('mxModelOptions', function (Components, subTemplates) {
+  .directive('mxModelOptions', function (Components, compileMixer) {
     'use strict';
 
-    subTemplates.register(
+    compileMixer.register(
       'mxModelOptions',
       {priority: 120},
       function(elem, attrs, targets) {

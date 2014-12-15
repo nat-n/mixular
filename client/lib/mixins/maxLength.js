@@ -1,10 +1,10 @@
 
 angular.module('mixularApp')
 
-  .directive('maxLength', function(subTemplates, Components) {
+  .directive('maxLength', function(compileMixer, Components) {
     'use strict';
 
-    subTemplates.register(
+    compileMixer.register(
       'maxLength',
       {priority: 145},
       function(elem, attrs, targets) {

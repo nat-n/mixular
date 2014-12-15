@@ -1,4 +1,239 @@
 
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
 
+      <h1>Compile mixin</h1>
+
+      <ul>
+        <li>
+          <p>
+            Create a component, with a compile function that calls out to a service that modifies the compilation depending on the presence of mixin attributes.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Defining the extensible component</h3>
+  </div>
+<pre class="prettyprint lang-js">
+angular.module('mixularApp')
+
+  .directive('mxInput', function (compileMixer) {
+    'use strict';
+
+    function makeTargets (elem) {
+      var input = elem.children('input')[0];
+      return compileMixer.createTargets({
+        main: input,
+        field: input,
+        input: input
+      });
+    }
+
+    function mxInputCompile(elem, attrs) {
+      var targets = makeTargets(elem);
+      compileMixer.apply(elem, attrs, targets);
+      return {
+        pre: function (scope, elem, attrs, ctrl) {
+          ctrl.targets = targets;
+        }
+      };
+    }
+
+    // ...
+
+    return {
+      restrict: 'E',
+      template: '&lt;input id="{{mx.id}}-mx-input"&gt;',
+      transclude: true,
+      scope: {},
+      compile: mxInputCompile
+      // ...
+    };
+  });
+</pre>
+</div>
+        </li>
+
+        <br>
+        <hr>
+        <br>
+
+        <li>
+          <p>
+            Create a service that keeps track of which attributes are linked to a compile mixin, and how to apply compile mixins.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">compileMixer service</h3>
+  </div>
+<pre class="prettyprint lang-js">
+angular.module('mixularApp')
+
+  .service('compileMixer', function ($templateCache, $log) {
+    'use strict';
+
+    var templates = {};
+
+    function register(name, params, compileFunc) {
+      templates[name] = {
+        params: params,
+        compile: compileFunc
+      };
+      Object.freeze(templates[name]);
+    }
+
+    function apply(elem, attrs, target) {
+      // Apply compiles any registered functions that match present attributes,
+      //  respecting priority ordering (highest first).
+      _.keys(attrs)
+        .filter(function(a){
+          return attrs.hasOwnProperty(a) && templates.hasOwnProperty(a);
+        })
+        .sort(function(a, b){
+          return templates[b].params.priority - templates[a].params.priority;
+        })
+        .forEach(function(a){
+          templates[a].compile(elem, attrs, target);
+        });
+    }
+
+    function targetReplace (targetName, templateName) {
+      var target = this[targetName];
+      if (!(target && target.hasOwnProperty('ownerDocument'))) {
+        // crude test that this isn't a DOM node
+        $log.error('No valid target node: ' + targetName);
+      }
+
+      var template = angular.element($templateCache.get(templateName))[0];
+      if (!template) {
+        $log.error('No valid template: ' + templateName);
+      }
+
+      target.parentElement.replaceChild(template, target);
+      // remove used up target
+      delete this[targetName];
+    }
+
+    function targetTransclude (targetName, content) {
+      var target = this[targetName];
+      if (!(target && target.hasOwnProperty('ownerDocument'))) {
+        // crude test that this isn't a DOM node
+        $log.error('No valid target node: ' + targetName);
+      }
+
+      if (!(content && content.hasOwnProperty('ownerDocument'))) {
+        // crude test that this isn't a DOM node
+        $log.error('Transclusion content not a valid dome node: ' + targetName,
+                   content);
+      }
+
+      target.parentElement.replaceChild(content, target);
+      // remove used up target
+      delete this[targetName];
+    }
+
+    function targetWrap (targetName, templateName) {
+      var target = this[targetName];
+      if (!(target && target.hasOwnProperty('ownerDocument'))) {
+        // crude test that this isn't a DOM node
+        $log.error('No valid target node: ' + targetName);
+      }
+
+      var template = angular.element($templateCache.get(templateName));
+      if (!template) {
+        $log.error('No valid template: ' + templateName);
+      }
+
+      var tp = template.find('tp-' + targetName)[0];
+      if (!tp) {
+        $log.error('No transclusion point for ' + targetName +
+                   ' in template: ' + templateName);
+      }
+
+      target.parentElement.replaceChild(template[0], target);
+      tp.parentElement.replaceChild(target, tp);
+    }
+
+    function createTargets (targets) {
+      Object.defineProperties(targets, {
+        $replace: {
+          value: targetReplace,
+          writable: false,
+          enumerable: false,
+          configurable: false
+        },
+        $wrap: {
+          value: targetWrap,
+          writable: false,
+          enumerable: false,
+          configurable: false
+        },
+        $transclude: {
+          value: targetTransclude,
+          writable: false,
+          enumerable: false,
+          configurable: false
+        }
+      });
+      return targets;
+    }
+
+    return {
+      register: register,
+      apply: apply,
+      createTargets: createTargets
+    };
+  });
+</pre>
+</div>
+        </li>
+
+        <br>
+        <hr>
+        <br>
+
+
+        <li>
+          <p>
+            Create a mixin that modifies the component at compile time.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">compileMixer service</h3>
+  </div>
+<pre class="prettyprint lang-js">
+angular.module('mixularApp')
+
+  .directive('placeholder', function(compileMixer, Components) {
+    'use strict';
+
+    compileMixer.register(
+      'placeholder',
+      {priority: 145},
+      function(elem, attrs, targets) {
+        targets.input.setAttribute('placeholder', '{{mx.placeholder}}');
+      }
+    );
+
+    return {
+      restrict: 'A',
+      priority: 145,
+      // ...
+    };
+  });
+</pre>
+</div>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+</div>
 
 <footer-nav></footer-nav>
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>

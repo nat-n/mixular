@@ -2,7 +2,7 @@
 angular.module('mixularApp')
 
   .directive('horizontalRadioSet', function($templateCache,
-                                            subTemplates) {
+                                            compileMixer) {
     'use strict';
 
     $templateCache.put('horizontal-radioset.html',
@@ -16,7 +16,7 @@ angular.module('mixularApp')
       '</div>'
     );
 
-    subTemplates.register(
+    compileMixer.register(
       'horizontalRadioSet',
       {priority: 150},
       function(elem, attrs, targets) {

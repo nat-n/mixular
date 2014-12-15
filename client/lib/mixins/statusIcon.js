@@ -3,7 +3,7 @@ angular.module('mixularApp')
 
   .directive('statusIcon', function($templateCache,
                                     $parse,
-                                    subTemplates,
+                                    compileMixer,
                                     Components) {
     'use strict';
 
@@ -13,7 +13,7 @@ angular.module('mixularApp')
            ' aria-hidden="true">{{glyphiconClass}}</span>'
     );
 
-    subTemplates.register(
+    compileMixer.register(
       'statusIcon',
       {priority: 140},
       function(elem, attrs, targets) {

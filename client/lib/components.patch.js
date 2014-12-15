@@ -44,13 +44,13 @@ function mxComponentCompileWrapper(module, params) {
   return function mxComponentCompile(elem, attrs) {
     // manually manage injection
     var $injector = angular.element('[ng-app="' + module.name + '"]').injector();
-    var subTemplates;
-    $injector.invoke(['subTemplates', function(st){ subTemplates = st; }]);
+    var compileMixer;
+    $injector.invoke(['compileMixer', function(st){ compileMixer = st; }]);
 
     var link = {},
-        targets = subTemplates.createTargets(params.targets(elem));
+        targets = compileMixer.createTargets(params.targets(elem));
 
-    subTemplates.apply(elem, attrs, targets);
+    compileMixer.apply(elem, attrs, targets);
 
     var preLinkWrapper = function (preLink) {
       return function(scope, elem, attrs, ctrl) {

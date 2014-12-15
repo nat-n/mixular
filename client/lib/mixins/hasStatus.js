@@ -3,11 +3,11 @@ angular.module('mixularApp')
 
   .directive('hasStatus', function($templateCache,
                                     $parse,
-                                    subTemplates,
+                                    compileMixer,
                                     Components) {
     'use strict';
 
-    subTemplates.register(
+    compileMixer.register(
       'hasStatus',
       {priority: 140},
       function(elem, attrs, targets) {

@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('verticalRadioSet', function($templateCache, subTemplates) {
+  .directive('verticalRadioSet', function($templateCache, compileMixer) {
     'use strict';
 
     $templateCache.put('vertical-radioset.html',
@@ -15,7 +15,7 @@ angular.module('mixularApp')
       '</div>'
     );
 
-    subTemplates.register(
+    compileMixer.register(
       'verticalRadioSet',
       {priority: 150},
       function(elem, attrs, targets) {

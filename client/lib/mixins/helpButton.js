@@ -1,7 +1,7 @@
 
 angular.module('mixularApp')
 
-  .directive('helpButton', function(subTemplates,
+  .directive('helpButton', function(compileMixer,
                                     $templateCache,
                                     Components) {
     'use strict';
@@ -24,7 +24,7 @@ angular.module('mixularApp')
       '</div>'
     );
 
-    subTemplates.register(
+    compileMixer.register(
       'helpButton',
       {priority: 140},
       function helpButtonCompile(elem, attrs, targets) {

@@ -1,4 +1,129 @@
 
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
 
+      <h1>Controller mixin</h1>
+
+      <ul>
+        <li>
+          <p>
+            Create a controller with an <em>include</em> method that facilitates injection of functionality into the controller's context, as if it were part of the controller definition.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Defining the component controller function</h3>
+  </div>
+<pre class="prettyprint lang-js">
+mixularApp.directive('mxInput', function (compileMixer) {
+    'use strict';
+
+    function myExtensibleController ($scope, $element, $attrs, $injector, $transclude) {
+      var ctrl = this;
+
+      ctrl.include = function(ctrlMixin) {
+        $injector.annotate(ctrlMixin);
+        $injector.invoke(ctrlMixin, ctrl, {
+          '$scope': $scope,
+          '$element': $element,
+          '$attrs': $attrs,
+          '$transclude': $transclude
+        });
+
+        ctrl.id = $attrs.name + '-mx-input';
+      };
+
+      return ctrl;
+    }
+
+    // ...
+
+    return {
+      restrict: 'E',
+      template: '&lt;input id="{{mx.id}}-mx-input"&gt;',
+      transclude: true,
+      scope: {},
+      require: 'mxInput',
+      controller: mxInputController,
+      controllerAs: 'mx',
+      compile: mxInputCompile
+    };
+  });
+
+</pre>
+</div>
+        </li>
+
+        <br>
+        <hr>
+        <br>
+
+        <li>
+          <p>
+            Create a provider to keep track of extensible components.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Components provider</h3>
+  </div>
+<pre class="prettyprint lang-js">
+mixularApp.provider('Components', function ComponentsProvider() {
+    'use strict';
+    var components = [];
+
+    this.register = function(newComponent) {
+      components.push(newComponent);
+    };
+
+    this.$get = function ComponentsFactory() {
+      return {
+        optionalParents: function() {
+          var i, mapped = components.map(function (c) { return '?^' + c; });
+          for (i = 0; i < arguments.length; i++) { mapped.push(arguments[i]); }
+          return mapped;
+        }
+      };
+    };
+  });
+
+/*
+ * Register my extensible component with the components provider in a config
+ * block to ensure it's available before any directives are initialised.
+ */
+mixularApp.config(function (ComponentsProvider) {
+    ComponentsProvider.register('mxInput');
+})
+</pre>
+</div>
+        </li>
+
+        <br>
+        <hr>
+        <br>
+
+        <li>
+          <p>
+            Declare a mixin directive which works by extending that component controller.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Mixin directive</h3>
+  </div>
+<pre class="prettyprint lang-js">
+
+</pre>
+</div>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+</div>
 
 <footer-nav></footer-nav>
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
