@@ -199,58 +199,34 @@ angular.module('mixularApp')
       <br>
 
       <div class="demo">
-        <h2>Demo:<h2>
+        <h2>Demo:</h2>
 
         <br>
 
         <div class="row">
           <div class="col-md-6">
-<pre class="prettyprint lang-html">
- &lt;mx-input name="fancy-input"
-           horizontal-field
-           label="Name"
-           has-button-group&gt;
-   &lt;div class="input-group-btn"&gt;
-     &lt;button type="button"
-             class="btn btn-default"&gt;Action1&lt;/button&gt;
-     &lt;button type="button"
-                class="btn btn-default dropdown-toggle"
-                data-toggle="dropdown"
-                aria-expanded="false"&gt;
-       Action &lt;span class="caret"&gt;&lt;/span&gt;
-     &lt;/button&gt;
-     &lt;ul class="dropdown-menu" role="menu"&gt;
-       &lt;li&gt;&lt;a href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
-       &lt;li&gt;&lt;a href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
-       &lt;li&gt;&lt;a href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
-       &lt;li class="divider"&gt;&lt;/li&gt;
-       &lt;li&gt;&lt;a href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
-     &lt;/ul&gt;
-   &lt;/div&gt;
- &lt;/mx-input&gt;
-</pre>
+          <pre class="prettyprint lang-html"> &lt;mx-select name="less-plain-select"
+           vertical-field
+           label="Best Planet"
+           mx-model="opinions"
+           mx-options="{'': '--- Please select ---',
+                 mars:'Mars',
+                 jupiter: 'Jupiter',
+                 earth: 'Earth',
+                 venus: 'Venus'}"&gt&lt;/mx-select&gt</pre>
           </div>
           <div class="col-md-6">
-            <mx-input name="fancy-input"
-                      horizontal-field
-                      label="Name"
-                      has-button-group>
-              <div class="input-group-btn">
-                <button type="button"
-                        class="btn btn-default">Action1</button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </div>
-            </mx-input>
+            <mx-select name="best-planet-select"
+                       vertical-field
+                       label="Best Planet"
+                       mx-model="opinions"
+                       mx-options="{'': '--- Please select ---',
+                             mars:'Mars',
+                             jupiter: 'Jupiter',
+                             earth: 'Earth',
+                             venus: 'Venus'}"></mx-select>
           </div>
         </div>
-      </div>
 
     </div>
   </div>

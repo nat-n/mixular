@@ -22,6 +22,10 @@ angular.module('mixularApp', [
       requirements: 'no'
     });
 
+    formModel.addSection('opinions', {
+      'best-planet-select': ''
+    });
+
     // initialise a named list of options
     optionLists.register('favouriteThings', [
       {value: 'nothing', label: 'Nothing'},
