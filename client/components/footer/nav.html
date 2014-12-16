@@ -3,10 +3,10 @@
     <nav>
       <ul class="pager">
         <li class="pull-left" ng-if="footerNav.previousPage">
-        	<a ui-sref="{{footerNav.previousPage}}">Previous</a>
+        	<a ui-sref="{{footerNav.previousPage}}" ng-click="footerNav.scrollUp()">Previous</a>
         </li>
         <li class="pull-right" ng-if="footerNav.nextPage">
-        	<a ui-sref="{{footerNav.nextPage}}">Next</a>
+        	<a ui-sref="{{footerNav.nextPage}}" ng-click="footerNav.scrollUp()">Next</a>
         </li>
       </ul>
     </nav>

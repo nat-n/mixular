@@ -23,6 +23,10 @@ angular.module('mixularApp')
           prev = sections.order[i];
         };
 
+        this.scrollUp = function () {
+          window.scrollTo(0, 0);
+        };
+
         return this;
       },
       link: function (scope, elem, attrs, footerNav) {

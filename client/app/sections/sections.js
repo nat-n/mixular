@@ -25,7 +25,7 @@ angular.module('mixularApp')
             'stub': 'monkey-patch'
         }]
       } ,{
-        'title': 'Examples',
+        'title': 'More Examples',
         'stub': 'example-components',
         'subsections': [{
             'title': 'Components',

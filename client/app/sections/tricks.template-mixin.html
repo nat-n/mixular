@@ -7,18 +7,18 @@
 
       <ul>
 
-      <br>
-      <br>
-      <ul class="alert alert-success">
-        <h3>How to make mixins that can modify the <em>content</em> and <em>presentation</em> of a component at compile time?</h3>
-      </ul>
-      <br>
-      <br>
-      <br>
+        <br>
+        <br>
+        <div class="alert alert-success">
+          <h3>How to make mixins that can modify the <em>content</em> and <em>presentation</em> of a component at compile time?</h3>
+        </div>
+        <br>
+        <br>
+        <br>
 
         <li>
           <p>
-            Create a component, with a compile function that calls out to a service that modifies the compilation depending on the presence of mixin attributes.
+            Create a directive (component), with a compile function that calls out to a service which modifies the template depending on the presence of known mixin attributes.
           </p>
 
 <div class="panel panel-default">
@@ -54,9 +54,11 @@ angular.module('mixularApp')
 
     return {
       restrict: 'E',
-      template: '&lt;input id="{{mx.id}}-mx-input"&gt;',
+      template: '&lt;input id="<code ng-non-bindable>{{mx.id}}</code>-mx-input"&gt;',
       transclude: true,
       scope: {},
+      require: 'mxInput',
+      controllerAs: 'mx',
       compile: mxInputCompile
       // ...
     };
@@ -110,60 +112,15 @@ angular.module('mixularApp')
     }
 
     function targetReplace (targetName, templateName) {
-      var target = this[targetName];
-      if (!(target && target.hasOwnProperty('ownerDocument'))) {
-        // crude test that this isn't a DOM node
-        $log.error('No valid target node: ' + targetName);
-      }
-
-      var template = angular.element($templateCache.get(templateName))[0];
-      if (!template) {
-        $log.error('No valid template: ' + templateName);
-      }
-
-      target.parentElement.replaceChild(template, target);
-      // remove used up target
-      delete this[targetName];
+      // ...
     }
 
     function targetTransclude (targetName, content) {
-      var target = this[targetName];
-      if (!(target && target.hasOwnProperty('ownerDocument'))) {
-        // crude test that this isn't a DOM node
-        $log.error('No valid target node: ' + targetName);
-      }
-
-      if (!(content && content.hasOwnProperty('ownerDocument'))) {
-        // crude test that this isn't a DOM node
-        $log.error('Transclusion content not a valid dome node: ' + targetName,
-                   content);
-      }
-
-      target.parentElement.replaceChild(content, target);
-      // remove used up target
-      delete this[targetName];
+      // ...
     }
 
     function targetWrap (targetName, templateName) {
-      var target = this[targetName];
-      if (!(target && target.hasOwnProperty('ownerDocument'))) {
-        // crude test that this isn't a DOM node
-        $log.error('No valid target node: ' + targetName);
-      }
-
-      var template = angular.element($templateCache.get(templateName));
-      if (!template) {
-        $log.error('No valid template: ' + templateName);
-      }
-
-      var tp = template.find('tp-' + targetName)[0];
-      if (!tp) {
-        $log.error('No transclusion point for ' + targetName +
-                   ' in template: ' + templateName);
-      }
-
-      target.parentElement.replaceChild(template[0], target);
-      tp.parentElement.replaceChild(target, tp);
+      // ...
     }
 
     function createTargets (targets) {
@@ -217,21 +174,52 @@ angular.module('mixularApp')
 <pre class="prettyprint lang-js">
 angular.module('mixularApp')
 
-  .directive('placeholder', function(compileMixer, Components) {
+  .directive('horizontalField', function($templateCache,
+                                         compileMixer,
+                                         Components) {
     'use strict';
 
+    $templateCache.put('horizontal-field.html',
+      '&lt;div class="form-group row horizontal-field"&gt;' +
+        '&lt;div class="col-md-2" ng-if="mx.label"&gt;' +
+          '&lt;label for="{{mx.id}}"' +
+                ' class="control-label"' +
+                ' ng-bind="mx.label"&gt;&lt;/label&gt;' +
+        '&lt;/div&gt;' +
+        '&lt;div class="col-md-6 main-wrapper"&gt;' +
+          '&lt;tp-before&gt;&lt;/tp-before&gt;' +
+          '&lt;tp-main&gt;&lt;/tp-main&gt;' +
+          '&lt;tp-after-0&gt;&lt;/tp-after-0&gt;' +
+          '&lt;tp-after-1&gt;&lt;/tp-after-1&gt;' +
+          '&lt;tp-after-2&gt;&lt;/tp-after-2&gt;' +
+        '&lt;/div&gt;' +
+      '&lt;/div&gt;'
+    );
+
     compileMixer.register(
-      'placeholder',
-      {priority: 145},
+      'horizontalField',
+      {priority: 150},
       function(elem, attrs, targets) {
-        targets.input.setAttribute('placeholder', '{{mx.placeholder}}');
+        targets.$wrap('main', 'horizontal-field.html');
+        targets.field.classList.add('form-control');
+        elem.addClass('form-horizontal');
+        targets.mainWrapper = elem.find('main-wrapper')[0];
+        targets.before = elem.find('tp-before')[0];
+        targets.after0 = elem.find('tp-after-0')[0];
+        targets.after1 = elem.find('tp-after-1')[0];
+        targets.after2 = elem.find('tp-after-2')[0];
       }
     );
 
     return {
       restrict: 'A',
-      priority: 145,
-      // ...
+      priority: 150,
+      require: Components.optionalParents(),
+      link: function(scope, elem, attrs, ctrls) {
+        var ctrl;
+        if (!(ctrl = _.find(ctrls))) { return; }
+        ctrl.label = attrs.label;
+      }
     };
   });
 </pre>
@@ -240,9 +228,44 @@ angular.module('mixularApp')
 
       </ul>
 
+      <br>
+      <br>
+      <br>
+
+      <div class="demo">
+        <h2>Demo:<h2>
+
+        <br>
+        <div class="row">
+          <div class="col-md-4">
+            <pre>&lt;mx-input name="plain-input"&gt&lt;/mx-input&gt</pre>
+          </div>
+          <div class="col-md-7 col-md-push-1">
+            <mx-input name="plain-input"></mx-input></pre>
+          </div>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="row">
+          <div class="col-md-4">
+            <pre>&lt;mx-input name="less-plain-input"
+          horizontal-field
+          label="Name"&gt&lt;/mx-input&gt</pre>
+          </div>
+          <div class="col-md-7 col-md-push-1">
+            <mx-input name="plain-input" horizontal-field label="Name"></mx-input></pre>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
   </div>
 </div>
+
 
 <footer-nav></footer-nav>
 
