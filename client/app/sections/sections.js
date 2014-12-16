@@ -107,4 +107,26 @@ angular.module('mixularApp')
       // scroll to top on state change
       window.scrollTo(0, 0);
     });
+  })
+
+  .directive('abridged', function () {
+    return {
+      restrict: 'A',
+      transclude: true,
+      template: '<div ng-class="{abridged:abridged,unabridged:!abridged}">' +
+                  '<div class="abr-ellipsis" ng-click="abridged=false">{{indent}}// ...</div>' +
+                  '<div ng-transclude></div>' +
+                '</div>',
+      scope: true,
+      link: function (scope, elem, attrs) {
+        var indent_size = parseInt(attrs.abridged)
+        scope.indent = ''
+        while (indent_size > 0) {
+          scope.indent += ' ';
+          indent_size--;
+        }
+
+        scope.abridged = true;
+      }
+    };
   });

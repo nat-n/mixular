@@ -16,3 +16,16 @@ div.panel pre.prettyprint
 
 .demo .control-label
   padding-top: 0
+
+
+.abridged
+  div[ng-transclude]
+    display: none
+  div.abr-ellipsis
+    display: block
+div.abr-ellipsis
+  display: none
+  &:hover
+    .com
+      color: #EEE
+      cursor: pointer

@@ -6,19 +6,256 @@
       <h1>Module monkey patch</h1>
 
       <ul>
+
+        <br>
+        <br>
+        <div class="alert alert-success">
+          <h3>Most of the code in components like mxInput is boilerplate and so can be extracted for reuse.</h3>
+        </div>
+        <br>
+        <br>
+        <br>
+
         <li>
-          <h3>
-            DRYing it up
-          </h3>
           <p>
-            e.g. rich form elements.
+            Monkey patch the module for easier creation of components.
           </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">The component factory <span class="small">(see <a href="https://github.com/nat-n/mixular/blob/master/client/lib/components.patch.js">unabridged version</a>)</span></h3>
+  </div>
+<pre class="prettyprint lang-js">
+// Create a wrapper $transclude function that only can only be called once
+function transcludeWrapper (ctrl, $transclude) {<span abridged="4">
+  'use strict';
+  var called = false;
+  return function(scope, cloneAttachFn, futureParentElement){
+    if (called) {
+      console.warn('$transclude function for ' + ctrl.id + ' called multiple times. Aborting.');
+      return;
+    }
+    called = true;
+    return $transclude(scope, cloneAttachFn, futureParentElement);
+  };</span>}
+
+function mxComponentControllerWrapper (ctrlMixin) {
+  'use strict';
+  return function mxComponentController ($scope, $attrs, $element, $injector, $transclude) {
+    var ctrl = this;
+
+    ctrl.include = function(ctrlMixin) {<span abridged="6">
+      $injector.annotate(ctrlMixin);
+      $injector.invoke(ctrlMixin, ctrl, {
+        '$scope': $scope,
+        '$element': $element,
+        '$attrs': $attrs,
+        '$transclude': transcludeWrapper(ctrl, $transclude),
+        'targets': ctrl.targets
+      });</span>    };
+
+    if (ctrlMixin) { ctrl.include(ctrlMixin); }
+
+    return ctrl;
+  };
+}
+
+function mxComponentCompileWrapper(module, params) {
+  'use strict';
+  return function mxComponentCompile(elem, attrs) {
+<span abridged="4">    // manually manage injection
+    var $injector = angular.element('[ng-app="' + module.name + '"]').injector();
+    var compileMixer;
+    $injector.invoke(['compileMixer', function(st){ compileMixer = st; }]);
+
+    var link = {},
+        targets = compileMixer.createTargets(params.targets(elem));
+
+    compileMixer.apply(elem, attrs, targets);
+
+    var preLinkWrapper = function (preLink) {
+      return function(scope, elem, attrs, ctrl) {
+        ctrl.targets = targets;
+        if (preLink) { preLink(scope, elem, attrs, ctrl); }
+      };
+    };
+
+    if (params.hasOwnProperty('link')) {
+      if (angular.isFunction(params.link)) {
+        link.post = params.link;
+      }
+      if (params.link.hasOwnProperty('post')) {
+        link.post = params.link.post;
+      }
+      link.pre = preLinkWrapper(params.link.pre);
+    }
+
+    return link;</span>};
+}
+
+function defineAngularComponent(name, params) {
+  'use strict';
+  var module = this;
+
+  module.config(function (ComponentsProvider) {
+    // Register this as a core component so that other directives can require it
+    if (params.core || !params.hasOwnProperty('core')) {
+      ComponentsProvider.register(name);
+    }
+  });
+
+  module.directive(name, function () {
+    var directiveDef = {
+      restrict: 'E',
+      transclude: true,
+      scope: {},
+      require: name,
+      controller: mxComponentControllerWrapper(params.controller),
+      controllerAs: 'mx',
+      compile: mxComponentCompileWrapper(module, params)
+    };
+
+    if (params.hasOwnProperty('restrict')) {
+      directiveDef.restrict = params.restrict;
+    }
+
+    if (params.hasOwnProperty('transclude')) {
+      directiveDef.transclude = params.transclude;
+    }
+
+    if (params.hasOwnProperty('scope')) {
+      directiveDef.scope = params.scope;
+    }
+
+    if (params.hasOwnProperty('template')) {
+      directiveDef.template = params.template;
+    }
+
+    if (params.hasOwnProperty('templateUrl')) {
+      directiveDef.templateUrl = params.templateUrl;
+    }
+
+    return directiveDef;
+  });
+
+}
+
+angular.module('mixularApp').component = angular.bind(
+  angular.module('mixularApp'),
+  defineAngularComponent
+);
+</pre>
+</div>
         </li>
 
+        <br>
+        <hr>
+        <br>
+
+        <li>
+          <p>
+            Now we can declare new components with all the general component capabilities but with very little boilerplate.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">The component factory <span class="small">(see <a href="https://github.com/nat-n/mixular/blob/master/client/lib/components.patch.js">unabridged version</a>)</span></h3>
+  </div>
+<pre class="prettyprint lang-js">
+angular.module('mixularApp')
+
+  .component('mxSelect', {
+    core: true,
+    controller: function() {
+      this.options = [];
+    },
+    link: {
+      pre: function (scope, elem, attrs, ctrl) {
+        ctrl.label = attrs.label;
+      }
+    },
+    template: (
+      '&lt;select id="<code ng-non-bindable>{{mx.id}}</code>"' +
+             ' ng-options="o.value as o.label group by o.group for o in mx.options"' +
+      '&gt;&lt;/select&gt;'
+    ),
+    targets: function(elem) {
+      'use strict';
+      var select = elem.children('select')[0];
+      return {
+        main: select,
+        field: select,
+        select: select
+      };
+    }
+  });
+</pre>
+</div>
+
       </ul>
+
+      <br>
+      <br>
+      <br>
+
+      <div class="demo">
+        <h2>Demo:<h2>
+
+        <br>
+
+        <div class="row">
+          <div class="col-md-6">
+<pre class="prettyprint lang-html">
+ &lt;mx-input name="fancy-input"
+           horizontal-field
+           label="Name"
+           has-button-group&gt;
+   &lt;div class="input-group-btn"&gt;
+     &lt;button type="button"
+             class="btn btn-default"&gt;Action1&lt;/button&gt;
+     &lt;button type="button"
+                class="btn btn-default dropdown-toggle"
+                data-toggle="dropdown"
+                aria-expanded="false"&gt;
+       Action &lt;span class="caret"&gt;&lt;/span&gt;
+     &lt;/button&gt;
+     &lt;ul class="dropdown-menu" role="menu"&gt;
+       &lt;li&gt;&lt;a href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+       &lt;li&gt;&lt;a href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+       &lt;li&gt;&lt;a href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+       &lt;li class="divider"&gt;&lt;/li&gt;
+       &lt;li&gt;&lt;a href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+     &lt;/ul&gt;
+   &lt;/div&gt;
+ &lt;/mx-input&gt;
+</pre>
+          </div>
+          <div class="col-md-6">
+            <mx-input name="fancy-input"
+                      horizontal-field
+                      label="Name"
+                      has-button-group>
+              <div class="input-group-btn">
+                <button type="button"
+                        class="btn btn-default">Action1</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </div>
+            </mx-input>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
 </div>
 
 <footer-nav></footer-nav>
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
