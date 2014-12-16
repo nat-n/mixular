@@ -23,7 +23,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Defining the extensible component</h3>
+    <h3 class="panel-title">A directive with an extensible compile function</h3>
   </div>
 <pre class="prettyprint lang-js">
 angular.module('mixularApp')
@@ -182,7 +182,7 @@ angular.module('mixularApp')
     $templateCache.put('horizontal-field.html',
       '&lt;div class="form-group row horizontal-field"&gt;' +
         '&lt;div class="col-md-2" ng-if="mx.label"&gt;' +
-          '&lt;label for="{{mx.id}}"' +
+          '&lt;label for="<code ng-non-bindable>{{mx.id}}</code>"' +
                 ' class="control-label"' +
                 ' ng-bind="mx.label"&gt;&lt;/label&gt;' +
         '&lt;/div&gt;' +
@@ -238,10 +238,10 @@ angular.module('mixularApp')
         <br>
         <div class="row">
           <div class="col-md-4">
-            <pre>&lt;mx-input name="plain-input"&gt&lt;/mx-input&gt</pre>
+            <pre class="prettyprint lang-html"> &lt;mx-input name="plain-input"&gt&lt;/mx-input&gt</pre>
           </div>
           <div class="col-md-7 col-md-push-1">
-            <mx-input name="plain-input"></mx-input></pre>
+            <mx-input name="plain-input"></mx-input>
           </div>
         </div>
 
@@ -250,17 +250,15 @@ angular.module('mixularApp')
 
         <div class="row">
           <div class="col-md-4">
-            <pre>&lt;mx-input name="less-plain-input"
-          horizontal-field
-          label="Name"&gt&lt;/mx-input&gt</pre>
+          <pre class="prettyprint lang-html"> &lt;mx-input name="less-plain-input"
+           horizontal-field
+           label="Name"&gt&lt;/mx-input&gt</pre>
           </div>
           <div class="col-md-7 col-md-push-1">
-            <mx-input name="plain-input" horizontal-field label="Name"></mx-input></pre>
+            <mx-input name="less-plain-input" horizontal-field label="Name"></mx-input>
           </div>
         </div>
       </div>
-
-
 
     </div>
   </div>

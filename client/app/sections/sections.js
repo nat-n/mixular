@@ -60,6 +60,23 @@ angular.module('mixularApp')
       }
     });
 
+    sections.get = function (sectionStub) {
+      var result;
+      sections.forEach(function (section) {
+        if (section.stub === sectionStub) { result = section; }
+        if (section.subsections) {
+          section.subsections.forEach(function (subsection) {
+            if (subsection.stub === sectionStub) {
+              result = subsection;
+              return;
+            }
+          });
+          if (result) { return result; }
+        }
+      });
+      return result;
+    }
+
     this.sections = sections;
 
     this.$get = function sectionsFactory() { return sections; };
@@ -82,5 +99,12 @@ angular.module('mixularApp')
           });
         });
       }
+    });
+  })
+
+  .run(function ($rootScope) {
+    $rootScope.$on('$stateChangeSuccess', function () {
+      // scroll to top on state change
+      window.scrollTo(0, 0);
     });
   });

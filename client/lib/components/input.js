@@ -64,7 +64,7 @@ angular.module('mixularApp')
 
     return {
       restrict: 'E',
-      template: '<input id="{{mx.id}}-mx-input">',
+      template: '<input id="{{mx.id}}">',
       transclude: true,
       scope: {},
       require: 'mxInput',

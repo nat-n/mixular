@@ -23,35 +23,54 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Defining the component controller function</h3>
+    <h3 class="panel-title">A directive with an extensible controller</h3>
   </div>
 <pre class="prettyprint lang-js">
-mixularApp.directive('mxInput', function (compileMixer) {
+angular.module('mixularApp')
+
+  .directive('mxInput', function (compileMixer) {
     'use strict';
 
-    function myExtensibleController ($scope, $element, $attrs, $injector, $transclude) {
+    // ...
+
+    // Create a wrapper $transclude function that only can only be called once
+    var transcludeWrapper = function (ctrl, $transclude) {
+      var called = false;
+      return function(scope, cloneAttachFn, futureParentElement){
+        if (called) {
+          console.warn('$transclude function for ' + ctrl.id + ' called multiple times. Aborting.');
+          return;
+        }
+        called = true;
+        return $transclude(scope, cloneAttachFn, futureParentElement);
+      };
+    };
+
+    function mxInputController ($scope, $attrs, $element, $transclude, $injector) {
       var ctrl = this;
 
+      var WrappedTranscluder = transcludeWrapper(ctrl, $transclude);
+
+      // include method allows this controller to be extended with extra functionality after initialisation
       ctrl.include = function(ctrlMixin) {
         $injector.annotate(ctrlMixin);
         $injector.invoke(ctrlMixin, ctrl, {
           '$scope': $scope,
           '$element': $element,
           '$attrs': $attrs,
-          '$transclude': $transclude
+          '$transclude': WrappedTranscluder,
+          'targets': ctrl.targets
         });
-
-        ctrl.id = $attrs.name + '-mx-input';
       };
+
+      ctrl.id = $attrs.name + '-mx-input';
 
       return ctrl;
     }
 
-    // ...
-
     return {
       restrict: 'E',
-      template: '&lt;input id="{{mx.id}}-mx-input"&gt;',
+      template: '&lt;input id="<code ng-non-bindable>{{mx.id}}</code>"&gt;',
       transclude: true,
       scope: {},
       require: 'mxInput',
@@ -60,7 +79,6 @@ mixularApp.directive('mxInput', function (compileMixer) {
       compile: mxInputCompile
     };
   });
-
 </pre>
 </div>
         </li>
@@ -76,7 +94,7 @@ mixularApp.directive('mxInput', function (compileMixer) {
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Components provider</h3>
+    <h3 class="panel-title">The components provider</h3>
   </div>
 <pre class="prettyprint lang-js">
 mixularApp.provider('Components', function ComponentsProvider() {
@@ -110,6 +128,8 @@ mixularApp.config(function (ComponentsProvider) {
         </li>
 
         <br>
+        <br>
+        <br>
         <hr>
         <br>
 
@@ -120,15 +140,117 @@ mixularApp.config(function (ComponentsProvider) {
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Mixin directive</h3>
+    <h3 class="panel-title">A mixin directive that extends the component controller</h3>
   </div>
 <pre class="prettyprint lang-js">
+angular.module('mixularApp')
 
+  .directive('hasButtonGroup', function($templateCache, compileMixer, Components) {
+    'use strict';
+
+    $templateCache.put('has-button-group.html',
+      '&lt;div class="input-group"&gt;' +
+        '&lt;tp-main&gt;&lt;/tp-main&gt;' +
+        '&lt;tp-button-group&gt;&lt;/tp-button-group&gt;' +
+      '&lt;/div&gt;'
+    );
+
+    compileMixer.register(
+      'hasButtonGroup',
+      {priority: 130},
+      function(elem, attrs, targets) {
+        targets.$wrap('main', 'has-button-group.html');
+        targets.buttonGroup = elem.find('tp-button-group')[0];
+      }
+    );
+
+    return {
+      restrict: 'A',
+      priority: 130,
+      require: Components.optionalParents(),
+      scope: false,
+      link: function(scope, elem, attrs, ctrls) {
+        var ctrl;
+        if (!(ctrl = _.find(ctrls))) { return; }
+
+        ctrl.include(function ($transclude, targets) {
+          $transclude(scope, function (contents) {
+            // Extract first button group from contents
+            var btnGrp = _.find(contents, function (node) {
+              return (node.nodeName === 'DIV' &&
+                      node.classList.contains('input-group-btn'));
+            });
+            if (btnGrp) {
+              targets.$transclude('buttonGroup', btnGrp);
+            }
+          });
+        });
+      }
+    };
+  });
 </pre>
 </div>
         </li>
 
       </ul>
+
+      <br>
+      <br>
+      <br>
+
+      <div class="demo">
+        <h2>Demo:<h2>
+
+        <br>
+
+        <div class="row">
+          <div class="col-md-6">
+<pre class="prettyprint lang-html">
+ &lt;mx-input name="fancy-input"
+           horizontal-field
+           label="Name"
+           has-button-group&gt;
+   &lt;div class="input-group-btn"&gt;
+     &lt;button type="button"
+             class="btn btn-default"&gt;Action1&lt;/button&gt;
+     &lt;button type="button"
+                class="btn btn-default dropdown-toggle"
+                data-toggle="dropdown"
+                aria-expanded="false"&gt;
+       Action &lt;span class="caret"&gt;&lt;/span&gt;
+     &lt;/button&gt;
+     &lt;ul class="dropdown-menu" role="menu"&gt;
+       &lt;li&gt;&lt;a href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+       &lt;li&gt;&lt;a href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+       &lt;li&gt;&lt;a href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+       &lt;li class="divider"&gt;&lt;/li&gt;
+       &lt;li&gt;&lt;a href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+     &lt;/ul&gt;
+   &lt;/div&gt;
+ &lt;/mx-input&gt;
+</pre>
+          </div>
+          <div class="col-md-6">
+            <mx-input name="fancy-input"
+                      horizontal-field
+                      label="Name"
+                      has-button-group>
+              <div class="input-group-btn">
+                <button type="button"
+                        class="btn btn-default">Action1</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </div>
+            </mx-input>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>

@@ -14,17 +14,13 @@ angular.module('mixularApp')
         var prev = this.nextPage = this.previousPage = null;
         for (var i = 0; i < sections.order.length; i++) {
           if (sections.order[i] === $state.current.name) {
-            this.previousPage = prev;
+            this.previousPage = sections.get(prev);
             if (sections.order[i+1]) {
-              this.nextPage = sections.order[i+1];
+              this.nextPage = sections.get(sections.order[i+1]);
             }
             break;
           }
           prev = sections.order[i];
-        };
-
-        this.scrollUp = function () {
-          window.scrollTo(0, 0);
         };
 
         return this;
