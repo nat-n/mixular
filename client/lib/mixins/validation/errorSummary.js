@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('mixularApp')
 
@@ -9,11 +10,13 @@ angular.module('mixularApp')
 			'</ul>'
 		);
 
+		// UNFINISHED
+
 		return {
 			restrict: 'E',
 			scope: {},
 			templateUrl: 'error-summary.html',
-			link: function (scope, elem, attrs, ctrl) {
+			link: function (scope, elem, attrs) {
 				scope.errors = [];
 
 				validationSets.watch(

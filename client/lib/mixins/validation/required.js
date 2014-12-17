@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('mixularApp')
 
@@ -6,14 +7,6 @@ angular.module('mixularApp')
   })
 
   .directive('mxRequired', function(Components, $log) {
-    'use strict';
-
-    return {
-      restrict: 'A',
-      priority: 110,
-      require: Components.optionalParents(),
-      link: mxRequiredLink
-    };
 
     function mxRequiredLink (scope, elem, attrs, ctrls) {
       var ctrl, requiredExpr, required;
@@ -56,4 +49,10 @@ angular.module('mixularApp')
       );
     }
 
+    return {
+      restrict: 'A',
+      priority: 110,
+      require: Components.optionalParents(),
+      link: mxRequiredLink
+    };
   });

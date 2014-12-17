@@ -21,7 +21,7 @@ angular.module('mixularApp')
             break;
           }
           prev = sections.order[i];
-        };
+        }
 
         return this;
       },

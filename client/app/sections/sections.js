@@ -3,7 +3,6 @@
 angular.module('mixularApp')
 
   .provider('sections', function sectionsProvider() {
-    'use strict';
 
     var sections = [{
         'title': 'Start',
@@ -28,15 +27,12 @@ angular.module('mixularApp')
         'title': 'More Examples',
         'stub': 'example-components',
         'subsections': [{
-            'title': 'Components',
+            'title': 'Another Component',
             'stub': 'components'
           }, {
-            'title': 'Addons',
-            'stub': 'addons'
-          }, {
-            'title': 'Behavoirs',
-            'stub': 'behavoirs'
-        }]
+            'title': 'More mixins',
+            'stub': 'more-mixins'
+          }]
       } ,{
         'title': 'Demo',
         'stub': 'working-example'
@@ -50,7 +46,7 @@ angular.module('mixularApp')
     sections.forEach(function (section) {
       if (section.subsections) {
         section.subsections.forEach(function (subsection) {
-          sections.order.push(subsection.stub)
+          sections.order.push(subsection.stub);
         });
       } else {
         sections.order.push(section.stub);
@@ -72,7 +68,7 @@ angular.module('mixularApp')
         }
       });
       return result;
-    }
+    };
 
     this.sections = sections;
 
@@ -116,11 +112,11 @@ angular.module('mixularApp')
                 '</div>',
       scope: true,
       link: function (scope, elem, attrs) {
-        var indent_size = parseInt(attrs.abridged)
-        scope.indent = ''
-        while (indent_size > 0) {
+        var indentSize = parseInt(attrs.abridged);
+        scope.indent = '';
+        while (indentSize > 0) {
           scope.indent += ' ';
-          indent_size--;
+          indentSize--;
         }
 
         scope.abridged = true;

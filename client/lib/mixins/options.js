@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('mixularApp')
 
@@ -5,18 +6,10 @@ angular.module('mixularApp')
                                    $parse,
                                    compileMixer,
                                    Components) {
-    'use strict';
-
-    return {
-      restrict: 'A',
-      priority: 140,
-      require: Components.optionalParents(),
-      link: mxOptionsLink
-    };
 
     function mxOptionsLink(scope, elem, attrs, ctrls) {
-      var ctrl;
-      if (!(ctrl = _.find(ctrls))) { return; }
+      var ctrl = _.find(ctrls);
+      if (!ctrl) { return; }
 
       scope.$watch(attrs.mxOptions, function (opts) {
         var keys = {};
@@ -45,5 +38,12 @@ angular.module('mixularApp')
 
       });
     }
+
+    return {
+      restrict: 'A',
+      priority: 140,
+      require: Components.optionalParents(),
+      link: mxOptionsLink
+    };
 
   });

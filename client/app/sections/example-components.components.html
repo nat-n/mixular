@@ -16,7 +16,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">The component factory <span class="small">(see <a href="https://github.com/nat-n/mixular/blob/master/client/lib/components.patch.js">unabridged version</a>)</span></h3>
+    <h3 class="panel-title">A radio set component</span></h3>
   </div>
 <pre class="prettyprint lang-js">
 angular.module('mixularApp')
@@ -83,9 +83,28 @@ angular.module('mixularApp')
         <div class="row">
           <div class="col-md-6">
           <pre class="prettyprint lang-html">
+ &lt;mx-radio-set name="favouriteThing"
+            vertical-radio-set
+            label="Favourite thing"
+            mx-model="opinions"
+            mx-options-list="favouriteThings"&gt;
+ &lt;/mx-radio-set&gt;</pre>
+          </div>
+          <div class="col-md-6">
+            <mx-radio-set name="favouriteThing"
+                       vertical-radio-set
+                       label="Favourite thing"
+                       mx-model="opinions"
+                       mx-options-list="favouriteThings"></mx-radio-set>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+          <pre class="prettyprint lang-html">
  &lt;mx-select name="favouriteThing"
             vertical-field
-            label="Length of other option list"
+            label="Favourite thing"
             mx-model="opinions"
             mx-options-list="favouriteThings"&gt;
  &lt;/mx-select&gt;</pre>
@@ -93,7 +112,7 @@ angular.module('mixularApp')
           <div class="col-md-6">
             <mx-select name="favouriteThing"
                        vertical-field
-                       label="Length of other option list"
+                       label="Favourite thing"
                        mx-model="opinions"
                        mx-options-list="favouriteThings"></mx-select>
           </div>

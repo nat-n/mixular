@@ -1,12 +1,8 @@
+'use strict';
 
 angular.module('mixularApp')
 
-  .directive('mxModel', function($parse,
-                                 compileMixer,
-                                 Components,
-                                 formModel,
-                                 $rootScope) {
-    'use strict';
+  .directive('mxModel', function($parse, compileMixer, Components, formModel) {
 
     compileMixer.register(
       'mxModel',
@@ -61,7 +57,6 @@ angular.module('mixularApp')
 
 
   .directive('mxModelOptions', function (Components, compileMixer) {
-    'use strict';
 
     compileMixer.register(
       'mxModelOptions',

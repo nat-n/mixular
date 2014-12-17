@@ -27,7 +27,7 @@ angular.module('mixularApp')
         targets.after = elem.find('tp-after')[0];
         targets.after1 = elem.find('tp-after-1')[0];
         if (attrs.horizontalRadioSet === 'inline') {
-          target.labelsWrapper.find('input.radio')
+          targets.labelsWrapper.find('input.radio')
             .removeClass('radio')
             .addClass('radio-inline');
         }

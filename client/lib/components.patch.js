@@ -1,6 +1,7 @@
+'use strict';
+
 // Create a wrapper $transclude function that only can only be called once
 function transcludeWrapper (ctrl, $transclude) {
-  'use strict';
   var called = false;
   return function(scope, cloneAttachFn, futureParentElement){
     if (called) {
@@ -14,7 +15,6 @@ function transcludeWrapper (ctrl, $transclude) {
 }
 
 function mxComponentControllerWrapper (ctrlMixin) {
-  'use strict';
   return function mxComponentController ($scope,
                                          $attrs,
                                          $element,
@@ -40,7 +40,6 @@ function mxComponentControllerWrapper (ctrlMixin) {
 }
 
 function mxComponentCompileWrapper(module, params) {
-  'use strict';
   return function mxComponentCompile(elem, attrs) {
     // manually manage injection
     var $injector = angular.element('[ng-app="' + module.name + '"]').injector();
@@ -74,7 +73,6 @@ function mxComponentCompileWrapper(module, params) {
 }
 
 function defineAngularComponent(name, params) {
-  'use strict';
   var module = this;
 
   module.config(function (ComponentsProvider) {

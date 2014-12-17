@@ -7,14 +7,14 @@ angular.module('mixularApp')
     /*
      * Manages watching of options lists
      */
-    var listenerSetFactory = (function () {
+    var ListenerSetFactory = (function () {
 
       function addListener(cb, conditionFunc) {
         var self = this;
         self.push({
           condition: conditionFunc,
           callback: cb
-        })
+        });
 
         // If there is now one listener then create a new watcher.
         // Tolerate the option list not yet existing.
@@ -22,9 +22,9 @@ angular.module('mixularApp')
           self.watcher = $rootScope.$watch(
             function () { return (directory[self.listName] || {}).options; },
             self.cb
-          )
+          );
         }
-      };
+      }
 
       // For each registered listener,
       //  if the condition is still met, then call the associated callback,
@@ -38,21 +38,21 @@ angular.module('mixularApp')
         });
         for (var i = listenersAlive.length - 1; i >= 0; i--) {
           if (!listenersAlive[i]) { listeners.splice(i,1); }
-        };
+        }
 
         // if there are no listeners left then kill the watcher
-        if (listeners.length === 0) {listeners.watcher()}
-      };
+        if (listeners.length === 0) { listeners.watcher(); }
+      }
 
-      return function listenerSetFactory (listName) {
+      return function ListenerSetFactory (listName) {
         var listeners = [];
         listeners.listName = listName;
         listeners.watcher = null;
         listeners.add = addListener;
-        listeners.cb = function() { listenerSetCallback.call(listName, listeners) };
+        listeners.cb = function() { listenerSetCallback.call(listName, listeners); };
         return listeners;
-      }
-    })()
+      };
+    })();
 
     var directory = {
       yesOrNo: {
@@ -60,14 +60,14 @@ angular.module('mixularApp')
           {value: 'yes', label: 'Yes'},
           {value: 'no',  label: 'No'}
         ],
-        watcher: new listenerSetFactory('yesOrNo')
+        watcher: new ListenerSetFactory('yesOrNo')
       }
     };
 
     function registerOptionList (listName, optionsArray) {
       directory[listName] = {
         options: optionsArray,
-        watcher: new listenerSetFactory(listName)
+        watcher: new ListenerSetFactory(listName)
       };
     }
 
@@ -154,4 +154,4 @@ angular.module('mixularApp')
     };
     Object.freeze(optionLists);
     return optionLists;
-  })
+  });

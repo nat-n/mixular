@@ -43,7 +43,7 @@ angular.module('mixularApp')
     function triggerSet (setName, global) {
       if (validationSets.hasOwnProperty(setName)) {
         // filter by and condition and trigger validations
-        validationSets[setName].errors.length = 0
+        validationSets[setName].errors.length = 0;
         validationSets[setName].validations = _.filter(
           validationSets[setName].validations,
           function (ctrl) {

@@ -6,7 +6,7 @@ angular.module('mixularApp', [
   'ui.router',
   'ui.bootstrap'
 ])
-  .config(function ($urlRouterProvider, $locationProvider, $httpProvider) {
+  .config(function ($urlRouterProvider, $locationProvider) {
     $urlRouterProvider
       .otherwise('/start');
 
@@ -47,7 +47,7 @@ angular.module('mixularApp', [
 
     optionLists.register('favouriteThings', favList.long);
 
-    window.formModel = formModel
+    window.formModel = formModel;
     // update the list a little while later
     $rootScope.$watch(
       function () { return formModel.opinions.listSwitch; },
@@ -60,7 +60,7 @@ angular.module('mixularApp', [
 
 
     actions.sayHi = function(name) {
-      alert('Hi ' +  name + '!');
+      window.alert('Hi ' +  name + '!');
     };
 
   });
