@@ -1,4 +1,147 @@
 
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
 
+      <h1>Another Component</h1>
+
+      <ul>
+
+        <br>
+
+        <li>
+          <p>
+            An example of a component which is a bit more complex that mxInput.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">The component factory <span class="small">(see <a href="https://github.com/nat-n/mixular/blob/master/client/lib/components.patch.js">unabridged version</a>)</span></h3>
+  </div>
+<pre class="prettyprint lang-js">
+angular.module('mixularApp')
+
+  .component('mxRadioSet', {
+    core: true,
+    controller: function() {
+      this.options = [];
+    },
+    link: {
+      pre: function (scope, elem, attrs, ctrl) {
+        ctrl.label = attrs.label;
+      }
+    },
+    template: (
+      '&lt;fieldset&gt;' +
+        '&lt;legend ng-show="mx.label" ng-bind="mx.label"&gt;&lt;/legend&gt;' +
+        '&lt;div&gt;' +
+          '&lt;label class="radio" ng-repeat="o in mx.options"&gt;' +
+            '&lt;input type="radio"' +
+                  ' ng-model="mx.model[mx.key]"' +
+                  ' name="<code ng-non-bindable>{{mx.id}}</code>"' +
+                  ' id="<code ng-non-bindable>{{mx.id}}-{{$index}}</code>"' +
+                  ' ng-value="o.value"&gt;' +
+            '<code ng-non-bindable>{{o.label}}</code>' +
+          '&lt;/label&gt;' +
+        '&lt;/div&gt;' +
+      '&lt;/fieldset&gt;'
+    ),
+    targets: function(elem) {
+      var fieldset = elem.children('fieldset')[0];
+      return {
+        main: fieldset,
+        legend: elem.find('legend')[0],
+        labelsWrapper: elem.find('fieldset > div')[0]
+      };
+    }
+  });
+</pre>
+</div>
+
+        </li>
+
+      </ul>
+
+      <br>
+      <br>
+      <br>
+
+      <div class="demo">
+        <h2>Demo:</h2>
+
+        <br>
+        <ul>
+          <li>
+            The <em>mx-options</em> mixin automatically works on the radioset component, because it also works by maintaining an array of options on its controller.
+          </li>
+          <li>
+            The <em>mx-options-list</em> mixin is interchangable with the <em>mx-options</em> mixin, and works instead by referencing a list of options maintained by a service (which in this case is updated by a watcher which whatches the model of the other fields).
+          </li>
+        </ul>
+        <br>
+
+        <div class="row">
+          <div class="col-md-6">
+          <pre class="prettyprint lang-html">
+ &lt;mx-select name="favouriteThing"
+            vertical-field
+            label="Length of other option list"
+            mx-model="opinions"
+            mx-options-list="favouriteThings"&gt;
+ &lt;/mx-select&gt;</pre>
+          </div>
+          <div class="col-md-6">
+            <mx-select name="favouriteThing"
+                       vertical-field
+                       label="Length of other option list"
+                       mx-model="opinions"
+                       mx-options-list="favouriteThings"></mx-select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+          <pre class="prettyprint lang-html">
+ &lt;mx-select name="listSwitch"
+            vertical-field
+            label="Length of other option list"
+            mx-model="opinions"
+            mx-options="{long:'Long', short:'Short'}"&gt;
+ &lt;/mx-select&gt;</pre>
+        </div>
+          <div class="col-md-6">
+            <mx-select name="listSwitch"
+                       vertical-field
+                       label="Length of other option list"
+                       mx-model="opinions"
+                       mx-options="{long:'Long', short:'Short'}"></mx-select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+          <pre class="prettyprint lang-html">
+ &lt;mx-radio-set name="listSwitch"
+               mx-model="opinions"
+               label="Length of other option list 2"
+               vertical-radio-set="inline"
+               mx-options="{long:'Long', short:'Short'}"&gt;
+ &lt;/mx-radio-set&gt;</pre>
+          </div>
+          <div class="col-md-6">
+            <mx-radio-set name="listSwitch"
+                          mx-model="opinions"
+                          label="Length of other option list 2"
+                          vertical-radio-set="inline"
+                          mx-options="{long:'Long', short:'Short'}">
+            </mx-radio-set>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>
 
 <footer-nav></footer-nav>
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>

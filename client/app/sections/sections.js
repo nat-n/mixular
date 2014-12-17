@@ -31,9 +31,6 @@ angular.module('mixularApp')
             'title': 'Components',
             'stub': 'components'
           }, {
-            'title': 'Layouts',
-            'stub': 'layouts'
-          }, {
             'title': 'Addons',
             'stub': 'addons'
           }, {
