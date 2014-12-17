@@ -1,0 +1,7 @@
+{
+  "name": "Mixular",
+  "description": "An experiment in components and mixins with AngularJS",
+  "repository": "https://github.com/nat-n/mixular",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["AngularJS", "components", "modules", "experiment"]
+}
