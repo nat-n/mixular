@@ -95,13 +95,69 @@ angular.module('mixularApp')
     });
   })
 
-  .run(function ($rootScope) {
+
+  .run(function ($rootScope, optionLists, actions, formModel) {
     $rootScope.$on('$stateChangeSuccess', function () {
       // scroll to top on state change
       window.scrollTo(0, 0);
     });
+
+
+    formModel.addSection('opinions', {
+      'best-planet-select': '',
+      listSwitch: 'long',
+      favouriteThing: '',
+    });
+
+    formModel.addSection('demo', {
+      name: '',
+      reason: '',
+      planet: '',
+      breathing: ''
+    });
+
+    // initialise a named list of options
+    var favList = {
+      long: [
+        {value: '', label: '--- Please Select ---'},
+        {value: 'thing1', label: 'Ice Cream'},
+        {value: 'thing2', label: 'Dogs'},
+        {value: 'thing3', label: 'Saturdays'},
+        {value: 'thing4', label: 'Sunshine'},
+        {value: 'nothing', label: 'Nothing'}
+      ],
+      short: [
+        {value: '', label: '--- Please Select ---'},
+        {value: 'thing', label: 'Anything really...'},
+        {value: 'nothing', label: 'I don\'t like things.' },
+      ]
+    };
+
+    optionLists.register('favouriteThings', favList.long);
+
+    // update the list a little while later
+    $rootScope.$watch(
+      function () { return formModel.opinions.listSwitch; },
+      function (listSwitch) {
+        optionLists.update('favouriteThings', function(){
+          return favList[listSwitch];
+        });
+      }
+    );
+
+    actions.sayHi = function(name) {
+      if (name) { alert('Hi ' +  name + '!'); }
+    };
+
+    actions.speakGreeting = function(name) {
+      var msg = new SpeechSynthesisUtterance('Greetings ' +  name);
+      window.speechSynthesis.speak(msg);
+    };
+
   })
 
+
+  // For collapsing code blocks
   .directive('abridged', function () {
     return {
       restrict: 'A',

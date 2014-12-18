@@ -21,8 +21,8 @@ angular.module('mixularApp')
       priority: 145,
       require: Components.optionalParents(),
       link: function(scope, elem, attrs, ctrls) {
-        var ctrl;
-        if (!(ctrl = _.find(ctrls))) { return; }
+        var ctrl = _.find(ctrls);
+        if (!ctrl) { return; }
 
         if (!ctrl.hasOwnProperty('modelCtrl')) {
           $log.warn('Cannot initialise mxChange;' +

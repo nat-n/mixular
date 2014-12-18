@@ -8,19 +8,200 @@
       <ul>
 
         <li>
-          help-button
+
+          <p>
+            A mixin can replace named targets available in the component template.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">A help button mixin</h3>
+  </div>
+<pre class="prettyprint lang-js">
+angular.module('mixularApp')
+
+  .directive('helpButton', function($templateCache, compileMixer, Components) {
+
+    $templateCache.put('help-button.html',
+      '&lt;div class="help-button"' +
+           ' id="<code ng-non-bindable>{{mx.id}}</code>-help"&gt;' +
+          '&lt;input type="button"' +
+                ' value="?"' +
+                ' id="<code ng-non-bindable>{{mx.id}}</code>-help-button"' +
+                ' title="help"' +
+                ' ng-click="mx.help.show=!mx.help.show"' +
+                ' ng-blur="mx.help.show=false"' +
+                ' class="help-button"&gt;' +
+        '&lt;div class="ng-hide"' +
+             ' ng-show="mx.help.show"' +
+             ' id="<code ng-non-bindable>{{mx.id}}</code>-help-text"&gt;' +
+          '&lt;span ng-bind-html="mx.help.msg"&gt;&lt;/span&gt;' +
+        '&lt;/div&gt;' +
+      '&lt;/div&gt;'
+    );
+
+    compileMixer.register(
+      'helpButton',
+      {priority: 140},
+      function helpButtonCompile(elem, attrs, targets) {
+        targets.$replace('after1', 'help-button.html');
+        elem.addClass('has-help-button');
+      }
+    );
+
+    return {
+      restrict: 'A',
+      priority: 140,
+      require: Components.optionalParents(),
+      link: function(scope, element, attrs, ctrls) {
+        var ctrl = _.find(ctrls);
+        if (!ctrl) { return; }
+        ctrl.help = {
+          show: false,
+          msg: attrs.helpButton
+        };
+      }
+    };
+  });</pre>
+  </div>
         </li>
 
+        <br>
+        <hr>
+        <br>
         <li>
-          placeholder
+
+          <p>
+            Here's how a mixin can manage binding with ng-model
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">A mixin for model binding</h3>
+  </div>
+<pre class="prettyprint lang-js">
+angular.module('mixularApp')
+
+  .directive('mxModel', function($parse, compileMixer, Components, formModel) {
+
+    compileMixer.register(
+      'mxModel',
+      {priority: 120},
+      function(elem, attrs, targets) {
+        if (targets.field) {
+          targets.field.setAttribute('ng-model', 'mx.model[mx.key]');
+          targets.field.setAttribute('mx-model-helper', '');
+
+          if (attrs.mxModelOptions) {
+            targets.field.setAttribute('ng-model-options', 'mx.modelOptions');
+          }
+        }
+      }
+    );
+
+    return {
+      restrict: 'A',
+      priority: 120,
+      require: Components.optionalParents(),
+      link: {
+        pre: function(scope, elem, attrs, ctrls) {
+          var ctrl;
+          if (!(ctrl = _.find(ctrls))) {
+            console.warn('No controller found for mxModel: ' +
+                         (attrs.name || ''));
+            return;
+          }
+          ctrl.model = $parse(attrs.mxModel)(formModel);
+          ctrl.key = attrs.name;
+          ctrl.value = function () { return ctrl.model[ctrl.key]; };
+
+          if (attrs.mxModelOptions) {
+            ctrl.modelOptions = scope.$eval(attrs.mxModelOptions);
+          }
+        }
+      }
+    };
+  })
+
+  .directive('mxModelHelper', function (Components) {
+    return {
+      restrict: 'A',
+      priority: 115,
+      require: Components.optionalParents('ngModel'),
+      link: {
+        pre: function(scope, elem, attrs, ctrls) {
+          var ctrl, ngModelCtrl = ctrls[ctrls.length-1];
+          if (!(ctrl = _.find(ctrls) || ctrl === ngModelCtrl)) {
+            console.warn('No controller found for mxModelHelper: ' + (attrs.name || ''));
+            return;
+          }
+          ctrl.modelCtrl = ngModelCtrl;
+        }
+      }
+    };
+  });</pre>
+  </div>
         </li>
 
+        <br>
+        <hr>
+        <br>
         <li>
-          model
-        </li>
 
-        <li>
-          validation
+          <p>
+            A mixin can replace named targets available in the component template.
+          </p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">A mixin that abstracts arounf ng-change</h3>
+  </div>
+<pre class="prettyprint lang-js">
+angular.module('mixularApp')
+
+  .directive('mxChange', function(compileMixer,
+                                  Components,
+                                  actions,
+                                  $parse,
+                                  $log) {
+    'use strict';
+
+    compileMixer.register(
+      'mxChange',
+      {priority: 115},
+      function(elem, attrs, targets) {
+        targets.field.setAttribute('ng-change', 'mx.mxChange()');
+      }
+    );
+
+    return {
+      restrict: 'A',
+      priority: 145,
+      require: Components.optionalParents(),
+      link: function(scope, elem, attrs, ctrls) {
+        var ctrl;
+        if (!(ctrl = _.find(ctrls))) { return; }
+
+        if (!ctrl.hasOwnProperty('modelCtrl')) {
+          $log.warn('Cannot initialise mxChange;' +
+                    ' modelCtrl not present on component controller');
+          return;
+        }
+
+        var parser = $parse(attrs.mxChange);
+        var context = angular.extend(Object.create(actions), {mx: ctrl});
+
+        ctrl.mxChange = function(){ parser(context); };
+      }
+    };
+  });
+</pre>
+  </div>
+
+          <p>
+            This implementation will only work with components that have a single field that accepts ng-change, (i.e. not like a radio set). It could be made to work with other types of component too in polymorphic kind of way. However whether or not this is a good idea as opposed to creating another mixin for those cases depend on how you want to structure you library.
+          </p>
+
         </li>
 
 		  </ul>

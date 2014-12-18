@@ -5,8 +5,157 @@
 
       <h1>Galactic immigration form</h1>
 
+
+      <div class="demo">
+        <br>
+
+        <div class="row">
+          <div class="col-md-6">
+<pre class="prettyprint lang-html">
+&lt;mx-input name="name"
+          vertical-field
+          mx-model="demo"
+          mx-model-options="{debounce: 1000}"
+          has-button-group
+          help-button="Please enter your name in full"
+          placeholder="Type your name in this bit"
+          mx-change="sayHi(mx.value())"&gt;
+  &lt;div class="input-group-btn"&gt;
+    &lt;button type="button"
+            class="btn btn-default"
+            mx-action="speakGreeting(mx.value())"&gt;
+      Speak greeting
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/mx-input&gt;
+</pre>
+          </div>
+          <div class="col-md-6">
+            <br>
+            <mx-input name="name"
+                      vertical-field
+                      mx-model="demo"
+                      mx-model-options="{debounce: 1000}"
+                      has-button-group
+                      help-button="Please enter your name in full"
+                      placeholder="Type your name in this bit"
+                      mx-change="sayHi(mx.value())">
+              <div class="input-group-btn">
+                <button type="button"
+                        class="btn btn-default"
+                        mx-action="speakGreeting(mx.value())">
+                  Speak greeting
+                </button>
+              </div>
+            </mx-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+<pre class="prettyprint lang-html">
+&lt;mx-input name="reason"
+    label="Reason to immigrate"
+    vertical-field
+    mx-model="demo"
+    mx-required="true"
+    valid-message
+    mx-required-msg="You really need to fill this one in."
+    status-icon="{'glyphicon-ok':modelCtrl.$valid,
+                 'glyphicon-remove':modelCtrl.$invalid &&
+                                    modelCtrl.$touched}"
+    has-status="{'has-success':modelCtrl.$valid,
+                 'has-error':modelCtrl.$invalid &&
+                             modelCtrl.$touched}"&gt;
+&lt;/mx-input&gt;
+</pre>
+          </div>
+          <div class="col-md-6">
+            <br>
+            <mx-input name="reason"
+                label="Reason to immigrate"
+                vertical-field
+                mx-model="demo"
+                mx-required="true"
+                valid-message
+                mx-required-msg="You really need to fill this one in."
+                status-icon="{'glyphicon-ok':modelCtrl.$valid,
+                             'glyphicon-remove':modelCtrl.$invalid &&
+                                                modelCtrl.$touched}"
+                has-status="{'has-success':modelCtrl.$valid,
+                             'has-error':modelCtrl.$invalid &&
+                                         modelCtrl.$touched}">
+            </mx-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+<pre class="prettyprint lang-html">
+&lt;mx-select name="planet"
+    label="Home Planet"
+    vertical-field
+    mx-model="demo"
+    mx-options="{'': '--- Please select ---',
+                 mars:'Mars',
+                 jupiter: 'Jupiter',
+                 earth: 'Earth',
+                 venus: 'Venus'}"
+    mx-required="true"
+    valid-message
+    mx-required-msg="You need to fill this one in too"
+    has-status="{'has-success':modelCtrl.$valid,
+                 'has-error':modelCtrl.$invalid &&
+                             modelCtrl.$touched}"&gt;
+&lt;/mx-select&gt;
+</pre>
+          </div>
+          <div class="col-md-6">
+            <br>
+            <mx-select name="planet"
+                label="Home Planet"
+                vertical-field
+                mx-model="demo"
+                mx-options="{'': '--- Please select ---',
+                             mars:'Mars',
+                             jupiter: 'Jupiter',
+                             earth: 'Earth',
+                             venus: 'Venus'}"
+                mx-required="true"
+                valid-message
+                mx-required-msg="You need to fill this one in too"
+                has-status="{'has-success':modelCtrl.$valid,
+                             'has-error':modelCtrl.$invalid &&
+                                         modelCtrl.$touched}">
+            </mx-select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+<pre class="prettyprint lang-html">
+&lt;mx-radio-set name="breathing"
+              mx-model="demo"
+              label="Do breath oxygen?"
+              horizontal-radio-set="inline"
+              mx-options-list="yesOrNo"&gt;&lt;/mx-radio-set&gt;
+</pre>
+          </div>
+          <div class="col-md-6">
+            <br>
+            <mx-radio-set name="breathing"
+                          mx-model="demo"
+                          label="Do breath oxygen?"
+                          horizontal-radio-set="inline"
+                          mx-options-list="yesOrNo"></mx-radio-set>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
 <footer-nav></footer-nav>
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>

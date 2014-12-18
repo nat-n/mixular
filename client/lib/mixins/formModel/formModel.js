@@ -11,6 +11,10 @@ angular.module('mixularApp')
         if (targets.field) {
           targets.field.setAttribute('ng-model', 'mx.model[mx.key]');
           targets.field.setAttribute('mx-model-helper', '');
+
+          if (attrs.mxModelOptions) {
+            targets.field.setAttribute('ng-model-options', 'mx.modelOptions');
+          }
         }
       }
     );
@@ -30,6 +34,10 @@ angular.module('mixularApp')
           ctrl.model = $parse(attrs.mxModel)(formModel);
           ctrl.key = attrs.name;
           ctrl.value = function () { return ctrl.model[ctrl.key]; };
+
+          if (attrs.mxModelOptions) {
+            ctrl.modelOptions = scope.$eval(attrs.mxModelOptions);
+          }
         }
       }
     };
@@ -50,37 +58,6 @@ angular.module('mixularApp')
             return;
           }
           ctrl.modelCtrl = ngModelCtrl;
-        }
-      }
-    };
-  })
-
-
-  .directive('mxModelOptions', function (Components, compileMixer) {
-
-    compileMixer.register(
-      'mxModelOptions',
-      {priority: 120},
-      function(elem, attrs, targets) {
-        if (targets.field) {
-          targets.field.setAttribute('ng-model-options', 'mx.modelOptions');
-        }
-      }
-    );
-
-    return {
-      restrict: 'A',
-      priority: 120,
-      require: Components.optionalParents(),
-      link: {
-        pre: function(scope, elem, attrs, ctrls) {
-          var ctrl;
-          if (!(ctrl = _.find(ctrls))) {
-            console.warn('No controller found for mxModelOptions: ' +
-                         (attrs.name || ''));
-            return;
-          }
-          ctrl.modelOptions = scope.$eval(attrs.mxModelOptions);
         }
       }
     };
