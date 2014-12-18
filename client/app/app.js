@@ -12,16 +12,3 @@ angular.module('mixularApp', [
 
     $locationProvider.html5Mode(true);
   })
-
-  .run(function ($rootScope, formModel) {
-
-    formModel.addSection('guestBook', {
-      firstName: 'Bob',
-      homeWorld: '',
-      favouriteThing: 'nothing',
-      requirements: 'no'
-    });
-
-
-
-  });
