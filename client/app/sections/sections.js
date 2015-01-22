@@ -150,7 +150,7 @@ angular.module('mixularApp')
     };
 
     actions.speakGreeting = function(name) {
-      var msg = new SpeechSynthesisUtterance('Greetings ' +  name);
+      var msg = new window.SpeechSynthesisUtterance('Greetings ' +  name);
       window.speechSynthesis.speak(msg);
     };
 

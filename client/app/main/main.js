@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mixularApp')
+angular.module('mixularApp');
 
   // .config(function ($stateProvider) {
   //   $stateProvider

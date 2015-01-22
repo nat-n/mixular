@@ -13,7 +13,7 @@ angular.module('mixularApp')
         var parser = $parse(attrs.mxAction);
         var context = angular.extend(Object.create(actions), {mx: ctrl});
 
-        function doAction (){ parser(context); };
+        function doAction (){ parser(context); }
 
         elem.on('click', doAction);
       }

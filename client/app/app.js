@@ -6,9 +6,10 @@ angular.module('mixularApp', [
   'ui.router',
   'ui.bootstrap'
 ])
+
   .config(function ($urlRouterProvider, $locationProvider) {
     $urlRouterProvider
       .otherwise('/start');
 
     $locationProvider.html5Mode(true);
-  })
+  });

@@ -1,16 +1,8 @@
+'use strict';
 
 angular.module('mixularApp')
 
   .service('validationSets', function validationSets () {
-    'use strict';
-
-    var validationSetsService  = {
-          registerValidation: registerValidation,
-          watch: watchValidationSet,
-          triggerGlobal: triggerGlobal,
-          triggerSet: triggerSet
-        },
-        validationSets = {};
 
     function ensureValidationSet (setName) {
       if (!validationSets.hasOwnProperty(setName)) {
@@ -73,6 +65,14 @@ angular.module('mixularApp')
         );
       }
     }
+
+    var validationSetsService  = {
+          registerValidation: registerValidation,
+          watch: watchValidationSet,
+          triggerGlobal: triggerGlobal,
+          triggerSet: triggerSet
+        },
+        validationSets = {};
 
     Object.freeze(validationSetsService);
     return validationSetsService;

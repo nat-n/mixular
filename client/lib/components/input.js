@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('mixularApp')
 
@@ -7,8 +8,6 @@ angular.module('mixularApp')
   })
 
   .directive('mxInput', function (compileMixer) {
-    'use strict';
-
     function makeTargets (elem) {
       var input = elem.children('input')[0];
       return compileMixer.createTargets({

@@ -2,7 +2,28 @@
 
 angular.module('mixularApp')
 
-  .directive('footerNav', function ($state, sections) {
+  .directive('footerNav', function ($state, sections, $templateCache) {
+
+    $templateCache.put('/components/footer/nav.html',
+      '<footer class="footer">' +
+        '<div class="container">' +
+          '<nav>' +
+            '<ul class="pager">' +
+              '<li class="pull-left" ng-if="footerNav.previousPage">' +
+                '<a ui-sref="{{footerNav.previousPage.stub}}">' +
+                  '&larr; {{footerNav.previousPage.title}}' +
+                '</a>' +
+              '</li>' +
+              '<li class="pull-right" ng-if="footerNav.nextPage">' +
+                '<a ui-sref="{{footerNav.nextPage.stub}}">' +
+                  '{{footerNav.nextPage.title}} &rarr;' +
+                '</a>' +
+              '</li>' +
+            '</ul>' +
+          '</nav>' +
+        '</div>' +
+      '</footer>'
+    );
 
     return {
       restrict: 'E',
